@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spectre Divide Tournament</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="js/main.js" defer></script>
+    <script src="js/bracket.js" defer></script>
+</head>
+<body class="user-view">
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-image"></div>
+                <div class="logo-text">Spectre <span>Divide</span></div>
+            </div>
+            <div class="nav-buttons">
+                <a href="login.html" class="login-button">Admin Login</a>
+            </div>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <div class="container">
+            <div class="tournament-header">
+                <h1 class="tournament-title">Winter Championship 2025</h1>
+                <div class="tournament-meta">
+                    <span class="tournament-format">Single Elimination</span>
+                    <span class="tournament-status live">LIVE</span>
+                </div>
+            </div>
+            
+            <!-- Tournament Display -->
+            <div class="tournament-display">
+                <div class="bracket-nav">
+                    <button class="bracket-nav-item active" data-tab="bracket">Tournament Bracket</button>
+                    <button class="bracket-nav-item" data-tab="schedule">Schedule</button>
+                    <button class="bracket-nav-item" data-tab="results">Results</button>
+                    <button class="bracket-nav-item" data-tab="teams">Teams</button>
+                    <button class="bracket-nav-item" data-tab="stats">Stats</button>
+                    <button class="bracket-nav-item" data-tab="prize">Prize Pool</button>
+                </div>
+                
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- Bracket Tab -->
+                    <div class="tab-pane active" id="bracket">
+                        <div class="bracket-container">
+                            <div class="bracket">
+                                <!-- Connector lines will be drawn dynamically with JavaScript -->
+                                <div class="connector-container" id="connector-container"></div>
+                                
+                                <!-- Quarterfinals -->
+                                <div class="bracket-round">
+                                    <div class="round-header">
+                                        <div class="round-title">Quarterfinals</div>
+                                        <div class="round-subtitle">Best of 5</div>
+                                    </div>
+                                    
+                                    <div class="bracket-matches">
+                                        <div class="bracket-match-wrapper" data-match-id="1" data-next-match="5" data-position="top">
+                                            <div class="bracket-match">
+                                                <div class="match-card" data-match-id="1">
+                                                    <div class="match-header">
+                                                        <div class="match-id">Match 1</div>
+                                                        <div class="match-format">BO5</div>
+                                                    </div>
+                                                    <div class="team-row winner">
+                                                        <div class="team-info">
+                                                            <div class="team-seed">1</div>
+                                                            <div class="team-name">Void Raiders</div>
+                                                        </div>
+                                                        <div class="team-score">3</div>
+                                                    </div>
+                                                    <div class="team-row loser">
+                                                        <div class="team-info">
+                                                            <div class="team-seed">8</div>
+                                                            <div class="team-name">Neon Knights</div>
+                                                        </div>
+                                                        <div class="team-score">1</div>
+                                                    </div>
+                                                    <div class="match-footer">
+                                                        <div class="match-time">Completed</div>
+                                                        <div class="match-status completed">Final</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bracket-match-wrapper" data-match-id="2" data-next-match="5" data-position="bottom">
+                                            <div class="bracket-match">
+                                                <div class="match-card" data-match-id="2">
+                                                    <div class="match-header">
+                                                        <div class="match-id">Match 2</div>
+                                                        <div class="match-format">BO5</div>
+                                                    </div>
+                                                    <div class="team-row loser">
+                                                        <div class="team-info">
+                                                            <div class="team-seed">4</div>
+                                                            <div class="team-name">Phantom Ops</div>
+                                                        </div>
+                                                        <div class="team-score">2</div>
+                                                    </div>
+                                                    <div class="team-row winner">
+                                                        <div class="team-info">
+                                                            <div class="team-seed">5</div>
+                                                            <div class="team-name">Cyber Sentinels</div>
+                                                        </div>
+                                                        <div class="team-score">3</div>
+                                                    </div>
+                                                    <div class="match-footer">
+                                                        <div class="match-time">Completed</div>
+                                                        <div class="match-status completed">Final</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bracket-match-wrapper" data-match-id="3" data-next-match="6" data-position="top">
+                                            <div class="bracket-match">
+                                                <div class="match-card" data-match-id="3">
+                                                    <div class="match-header">
+                                                        <div class="match-id">Match 3</div>
+                                                        <div class="match-format">BO5</div>
+                                                    </div>
+                                                    <div class="team-row winner">
+                                                        <div class="team-info">
+                                                            <div class="team-seed">3</div>
+                                                            <div class="team-name">Eclipse Squad</div>
+                                                        </div>
+                                                        <div class="team-score">3</div>
+                                                    </div>
+                                                    <div class="team-row loser">
+                                                        <div class="team-info">
+                                                            <div class="team-seed">6</div>
+                                                            <div class="team-name">Quantum Force</div>
+                                                        </div>
+                                                        <div class="team-score">0</div>
+                                                    </div>
+                                                    <div class="match-footer">
+                                                        <div class="match-time">Completed</div>
+                                                        <div class="match-status completed">Final</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bracket-match-wrapper" data-match-id="4" data-next-match="6" data-position="bottom">
+                                            <div class="bracket-match">
+                                                <div class="match-card" data-match-id="4">
+                                                    <div class="match-header">
+                                                        <div class="match-id">Match 4</div>
+                                                        <div class="match-format">BO5</div>
+                                                    </div>
+                                                    <div class="team-row loser">
+                                                        <div class="team-info">
+                                                            <div class="team-seed">2</div>
+                                                            <div class="team-name">Spectre Elite</div>
+                                                        </div>
+                                                        <div class="team-score">1</div>
+                                                    </div>
+                                                    <div class="team-row winner">
+                                                        <div class="team-info">
+                                                            <div class="team-seed">7</div>
+                                                            <div class="team-name">Nexus Warriors</div>
+                                                        </div>
+                                                        <div class="team-score">3</div>
+                                                    </div>
+                                                    <div class="match-footer">
+                                                        <div class="match-time">Completed</div>
+                                                        <div class="match-status completed">Final</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Semifinals -->
+                                <div class="bracket-round">
+                                    <div class="round-header">
+                                        <div class="round-title">Semifinals</div>
+                                        <div class="round-subtitle">Best of 5</div>
+                                    </div>
+                                    
+                                    <div class="bracket-matches">
+                                        <div class="bracket-match-wrapper" data-match-id="5" data-next-match="7" data-position="top">
+                                            <div class="bracket-match">
+                                                <div class="match-card" data-match-id="5">
+                                                    <div class="match-header">
+                                                        <div class="match-id">Match 5</div>
+                                                        <div class="match-format">BO5</div>
+                                                    </div>
+                                                    <div class="team-row loser">
+                                                        <div class="team-info">
+                                                            <div class="team-seed">1</div>
+                                                            <div class="team-name">Void Raiders</div>
+                                                        </div>
+                                                        <div class="team-score">2</div>
+                                                    </div>
+                                                    <div class="team-row winner">
+                                                        <div class="team-info">
+                                                            <div class="team-seed">5</div>
+                                                            <div class="team-name">Cyber Sentinels</div>
+                                                        </div>
+                                                        <div class="team-score">3</div>
+                                                    </div>
+                                                    <div class="match-footer">
+                                                        <div class="match-time">Completed</div>
+                                                        <div class="match-status completed">Final</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="bracket-match-wrapper" data-match-id="6" data-next-match="7" data-position="bottom">
+                                            <div class="bracket-match">
+                                                <div class="match-card" data-match-id="6">
+                                                    <div class="match-header">
+                                                        <div class="match-id">Match 6</div>
+                                                        <div class="match-format">BO5</div>
+                                                    </div>
+                                                    <div class="team-row winner">
+                                                        <div class="team-info">
+                                                            <div class="team-seed">3</div>
+                                                            <div class="team-name">Eclipse Squad</div>
+                                                        </div>
+                                                        <div class="team-score">3</div>
+                                                    </div>
+                                                    <div class="team-row loser">
+                                                        <div class="team-info">
+                                                            <div class="team-seed">7</div>
+                                                            <div class="team-name">Nexus Warriors</div>
+                                                        </div>
+                                                        <div class="team-score">1</div>
+                                                    </div>
+                                                    <div class="match-footer">
+                                                        <div class="match-time">Completed</div>
+                                                        <div class="match-status completed">Final</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Finals -->
+                                <div class="bracket-round">
+                                    <div class="round-header">
+                                        <div class="round-title">Finals</div>
+                                        <div class="round-subtitle">Best of 7</div>
+                                    </div>
+                                    
+                                    <div class="bracket-matches">
+                                        <div class="bracket-match-wrapper" data-match-id="7">
+                                            <div class="bracket-match">
+                                                <div class="match-card" data-match-id="7">
+                                                    <div class="match-header">
+                                                        <div class="match-id">Grand Finals</div>
+                                                        <div class="match-format">BO7</div>
+                                                    </div>
+                                                    <div class="team-row">
+                                                        <div class="team-info">
+                                                            <div class="team-seed">5</div>
+                                                            <div class="team-name">Cyber Sentinels</div>
+                                                        </div>
+                                                        <div class="team-score">2</div>
+                                                    </div>
+                                                    <div class="team-row">
+                                                        <div class="team-info">
+                                                            <div class="team-seed">3</div>
+                                                            <div class="team-name">Eclipse Squad</div>
+                                                        </div>
+                                                        <div class="team-score">2</div>
+                                                    </div>
+                                                    <div class="match-footer">
+                                                        <div class="match-time">15:30 EST</div>
+                                                        <div class="match-status live">Live</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Match Details -->
+                        <div class="match-details">
+                            <div class="match-details-header">
+                                <h2 class="match-details-title">Grand Finals</h2>
+                            </div>
+                            
+                            <div class="match-teams">
+                                <div class="match-team">
+                                    <div class="team-logo">CS</div>
+                                    <div class="match-team-name">Cyber Sentinels</div>
+                                    <div class="match-team-record">Tournament Record: 8-3</div>
+                                </div>
+                                
+                                <div class="match-score">
+                                    <div class="match-score-value">2</div>
+                                    <div class="match-score-divider">:</div>
+                                    <div class="match-score-value">2</div>
+                                </div>
+                                
+                                <div class="match-team">
+                                    <div class="team-logo">ES</div>
+                                    <div class="match-team-name">Eclipse Squad</div>
+                                    <div class="match-team-record">Tournament Record: 9-1</div>
+                                </div>
+                            </div>
+                            
+                            <div class="match-info-grid">
+                                <div class="match-info-item">
+                                    <div class="match-info-label">STATUS</div>
+                                    <div class="match-info-value">In Progress</div>
+                                </div>
+                                
+                                <div class="match-info-item">
+                                    <div class="match-info-label">STAGE</div>
+                                    <div class="match-info-value">Grand Finals</div>
+                                </div>
+                                
+                                <div class="match-info-item">
+                                    <div class="match-info-label">FORMAT</div>
+                                    <div class="match-info-value">Best of 7</div>
+                                </div>
+                                
+                                <div class="match-info-item">
+                                    <div class="match-info-label">NEXT MAP</div>
+                                    <div class="match-info-value">Neo Tokyo</div>
+                                </div>
+                            </div>
+                            
+                            <div class="match-maps">
+                                <h3 class="match-maps-title">Maps</h3>
+                                <div class="maps-grid">
+                                    <div class="map-card">
+                                        <div class="map-header">
+                                            <div class="map-name">Lunar Base</div>
+                                            <div class="map-number">Map 1</div>
+                                        </div>
+                                        <div class="map-content">
+                                            <div class="map-score map-winner">
+                                                <div class="team-name">Cyber Sentinels</div>
+                                                <div class="map-team-score">13</div>
+                                            </div>
+                                            <div class="map-score">
+                                                <div class="team-name">Eclipse Squad</div>
+                                                <div class="map-team-score">11</div>
+                                            </div>
+                                            <div class="map-status">Completed</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="map-card">
+                                        <div class="map-header">
+                                            <div class="map-name">Neon City</div>
+                                            <div class="map-number">Map 2</div>
+                                        </div>
+                                        <div class="map-content">
+                                            <div class="map-score">
+                                                <div class="team-name">Cyber Sentinels</div>
+                                                <div class="map-team-score">9</div>
+                                            </div>
+                                            <div class="map-score map-winner">
+                                                <div class="team-name">Eclipse Squad</div>
+                                                <div class="map-team-score">13</div>
+                                            </div>
+                                            <div class="map-status">Completed</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="map-card">
+                                        <div class="map-header">
+                                            <div class="map-name">Quantum Ruins</div>
+                                            <div class="map-number">Map 3</div>
+                                        </div>
+                                        <div class="map-content">
+                                            <div class="map-score map-winner">
+                                                <div class="team-name">Cyber Sentinels</div>
+                                                <div class="map-team-score">13</div>
+                                            </div>
+                                            <div class="map-score">
+                                                <div class="team-name">Eclipse Squad</div>
+                                                <div class="map-team-score">7</div>
+                                            </div>
+                                            <div class="map-status">Completed</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="map-card">
+                                        <div class="map-header">
+                                            <div class="map-name">Void Station</div>
+                                            <div class="map-number">Map 4</div>
+                                        </div>
+                                        <div class="map-content">
+                                            <div class="map-score">
+                                                <div class="team-name">Cyber Sentinels</div>
+                                                <div class="map-team-score">10</div>
+                                            </div>
+                                            <div class="map-score map-winner">
+                                                <div class="team-name">Eclipse Squad</div>
+                                                <div class="map-team-score">13</div>
+                                            </div>
+                                            <div class="map-status">Completed</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="map-card">
+                                        <div class="map-header">
+                                            <div class="map-name">Neo Tokyo</div>
+                                            <div class="map-number">Map 5</div>
+                                        </div>
+                                        <div class="map-content">
+                                            <div class="map-score">
+                                                <div class="team-name">Cyber Sentinels</div>
+                                                <div class="map-team-score">-</div>
+                                            </div>
+                                            <div class="map-score">
+                                                <div class="team-name">Eclipse Squad</div>
+                                                <div class="map-team-score">-</div>
+                                            </div>
+                                            <div class="map-status">Up Next</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Schedule Tab -->
+                    <div class="tab-pane" id="schedule">
+                        <div class="schedule-container">
+                            <h2 class="section-title">Tournament Schedule</h2>
+                            
+                            <div class="schedule-filters">
+                                <button class="filter-btn active" data-filter="all">All Days</button>
+                                <button class="filter-btn" data-filter="day1">Day 1</button>
+                                <button class="filter-btn" data-filter="day2">Day 2</button>
+                                <button class="filter-btn" data-filter="day3">Day 3</button>
+                            </div>
+                            
+                            <div class="schedule-day active" data-day="day1">
+                                <div class="day-header">
+                                    <h3>Day 1 - March 6, 2025</h3>
+                                    <div class="day-status">Completed</div>
+                                </div>
+                                
+                                <div class="schedule-matches">
+                                    <div class="schedule-match">
+                                        <div class="match-time">10:00 AM EST</div>
+                                        <div class="match-teams">
+                                            <div class="match-team">
+                                                <div class="team-seed">1</div>
+                                                <div class="team-name">Void Raiders</div>
+                                            </div>
+                                            <div class="match-score">3 - 1</div>
+                                            <div class="match-team">
+                                                <div class="team-seed">8</div>
+                                                <div class="team-name">Neon Knights</div>
+                                            </div>
+                                        </div>
+                                        <div class="match-info">
+                                            <div class="match-id">Quarterfinals - Match 1</div>
+                                            <div class="match-status completed">Completed</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="schedule-match">
+                                        <div class="match-time">1:00 PM EST</div>
+                                        <div class="match-teams">
+                                            <div class="match-team">
+                                                <div class="team-seed">4</div>
+                                                <div class="team-name">Phantom Ops</div>
+                                            </div>
+                                            <div class="match-score">2 - 3</div>
+                                            <div class="match-team">
+                                                <div class="team-seed">5</div>
+                                                <div class="team-name">Cyber Sentinels</div>
+                                            </div>
+                                        </div>
+                                        <div class="match-info">
+                                            <div class="match-id">Quarterfinals - Match 2</div>
+                                            <div class="match-status completed">Completed</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="schedule-match">
+                                        <div class="match-time">4:00 PM EST</div>
+                                        <div class="match-teams">
+                                            <div class="match-team">
+                                                <div class="team-seed">3</div>
+                                                <div class="team-name">Eclipse Squad</div>
+                                            </div>
+                                            <div class="match-score">3 - 0</div>
+                                            <div class="match-team">
+                                                <div class="team-seed">6</div>
+                                                <div class="team-name">Quantum Force</div>
+                                            </div>
+                                        </div>
+                                        <div class="match-info">
+                                            <div class="match-id">Quarterfinals - Match 3</div>
+                                            <div class="match-status completed">Completed</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="schedule-match">
+                                        <div class="match-time">7:00 PM EST</div>
+                                        <div class="match-teams">
+                                            <div class="match-team">
+                                                <div class="team-seed">2</div>
+                                                <div class="team-name">Spectre Elite</div>
+                                            </div>
+                                            <div class="match-score">1 - 3</div>
+                                            <div class="match-team">
+                                                <div class="team-seed">7</div>
+                                                <div class="team-name">Nexus Warriors</div>
+                                            </div>
+                                        </div>
+                                        <div class="match-info">
+                                            <div class="match-id">Quarterfinals - Match 4</div>
+                                            <div class="match-status completed">Completed</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="schedule-day" data-day="day2">
+                                <div class="day-header">
+                                    <h3>Day 2 - March 7, 2025</h3>
+                                    <div class="day-status">Completed</div>
+                                </div>
+                                
+                                <div class="schedule-matches">
+                                    <div class="schedule-match">
+                                        <div class="match-time">2:00 PM EST</div>
+                                        <div class="match-teams">
+                                            <div class="match-team">
+                                                <div class="team-seed">1</div>
+                                                <div class="team-name">Void Raiders</div>
+                                            </div>
+                                            <div class="match-score">2 - 3</div>
+                                            <div class="match-team">
+                                                <div class="team-seed">5</div>
+                                                <div class="team-name">Cyber Sentinels</div>
+                                            </div>
+                                        </div>
+                                        <div class="match-info">
+                                            <div class="match-id">Semifinals - Match 1</div>
+                                            <div class="match-status completed">Completed</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="schedule-match">
+                                        <div class="match-time">6:00 PM EST</div>
+                                        <div class="match-teams">
+                                            <div class="match-team">
+                                                <div class="team-seed">3</div>
+                                                <div class="team-name">Eclipse Squad</div>
+                                            </div>
+                                            <div class="match-score">3 - 1</div>
+                                            <div class="match-team">
+                                                <div class="team-seed">7</div>
+                                                <div class="team-name">Nexus Warriors</div>
+                                            </div>
+                                        </div>
+                                        <div class="match-info">
+                                            <div class="match-id">Semifinals - Match 2</div>
+                                            <div class="match-status completed">Completed</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="schedule-day" data-day="day3">
+                                <div class="day-header">
+                                    <h3>Day 3 - March 8, 2025</h3>
+                                    <div class="day-status live">In Progress</div>
+                                </div>
+                                
+                                <div class="schedule-matches">
+                                    <div class="schedule-match current">
+                                        <div class="match-time">3:00 PM EST</div>
+                                        <div class="match-teams">
+                                            <div class="match-team">
+                                                <div class="team-seed">5</div>
+                                                <div class="team-name">Cyber Sentinels</div>
+                                            </div>
+                                            <div class="match-score">2 - 2</div>
+                                            <div class="match-team">
+                                                <div class="team-seed">3</div>
+                                                <div class="team-name">Eclipse Squad</div>
+                                            </div>
+                                        </div>
+                                        <div class="match-info">
+                                            <div class="match-id">Grand Finals</div>
+                                            <div class="match-status live">Live</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="schedule-match">
+                                        <div class="match-time">7:00 PM EST</div>
+                                        <div class="match-ceremony">Awards Ceremony</div>
+                                        <div class="match-info">
+                                            <div class="match-id">Closing Event</div>
+                                            <div class="match-status upcoming">Upcoming</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Results Tab -->
+                    <div class="tab-pane" id="results">
+                        <div class="results-container">
+                            <h2 class="section-title">Tournament Results</h2>
+                            
+                            <div class="results-filters">
+                                <button class="filter-btn active" data-filter="all">All Matches</button>
+                                <button class="filter-btn" data-filter="completed">Completed</button>
+                                <button class="filter-btn" data-filter="live">Live</button>
+                                <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+                            </div>
+                            
+                            <div class="results-list">
+                                <div class="results-section" data-section="quarterfinals">
+                                    <h3 class="results-section-title">Quarterfinals</h3>
+                                    
+                                    <div class="results-matches">
+                                        <div class="result-match" data-status="completed">
+                                            <div class="result-header">
+                                                <div class="result-id">Match 1</div>
+                                                <div class="result-date">March 6, 2025</div>
+                                            </div>
+                                            <div class="result-teams">
+                                                <div class="result-team winner">
+                                                    <div class="team-name">Void Raiders</div>
+                                                    <div class="team-score">3</div>
+                                                </div>
+                                                <div class="result-team">
+                                                    <div class="team-name">Neon Knights</div>
+                                                    <div class="team-score">1</div>
+                                                </div>
+                                            </div>
+                                            <div class="result-footer">
+                                                <div class="result-stats">Maps: Lunar Base (13-10), Neon City (9-13), Quantum Ruins (13-7), Void Station (13-5)</div>
+                                                <a href="#" class="result-details-link">Details</a>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="result-match" data-status="completed">
+                                            <div class="result-header">
+                                                <div class="result-id">Match 2</div>
+                                                <div class="result-date">March 6, 2025</div>
+                                            </div>
+                                            <div class="result-teams">
+                                                <div class="result-team">
+                                                    <div class="team-name">Phantom Ops</div>
+                                                    <div class="team-score">2</div>
+                                                </div>
+                                                <div class="result-team winner">
+                                                    <div class="team-name">Cyber Sentinels</div>
+                                                    <div class="team-score">3</div>
+                                                </div>
+                                            </div>
+                                            <div class="result-footer">
+                                                <div class="result-stats">Maps: Lunar Base (8-13), Neon City (13-11), Quantum Ruins (13-7), Void Station (7-13), Neo Tokyo (9-13)</div>
+                                                <a href="#" class="result-details-link">Details</a>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="result-match" data-status="completed">
+                                            <div class="result-header">
+                                                <div class="result-id">Match 3</div>
+                                                <div class="result-date">March 6, 2025</div>
+                                            </div>
+                                            <div class="result-teams">
+                                                <div class="result-team winner">
+                                                    <div class="team-name">Eclipse Squad</div>
+                                                    <div class="team-score">3</div>
+                                                </div>
+                                                <div class="result-team">
+                                                    <div class="team-name">Quantum Force</div>
+                                                    <div class="team-score">0</div>
+                                                </div>
+                                            </div>
+                                            <div class="result-footer">
+                                                <div class="result-stats">Maps: Lunar Base (13-5), Neon City (13-8), Quantum Ruins (13-10)</div>
+                                                <a href="#" class="result-details-link">Details</a>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="result-match" data-status="completed">
+                                            <div class="result-header">
+                                                <div class="result-id">Match 4</div>
+                                                <div class="result-date">March 6, 2025</div>
+                                            </div>
+                                            <div class="result-teams">
+                                                <div class="result-team">
+                                                    <div class="team-name">Spectre Elite</div>
+                                                    <div class="team-score">1</div>
+                                                </div>
+                                                <div class="result-team winner">
+                                                    <div class="team-name">Nexus Warriors</div>
+                                                    <div class="team-score">3</div>
+                                                </div>
+                                            </div>
+                                            <div class="result-footer">
+                                                <div class="result-stats">Maps: Lunar Base (13-11), Neon City (5-13), Quantum Ruins (9-13), Void Station (8-13)</div>
+                                                <a href="#" class="result-details-link">Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="results-section" data-section="semifinals">
+                                    <h3 class="results-section-title">Semifinals</h3>
+                                    
+                                    <div class="results-matches">
+                                        <div class="result-match" data-status="completed">
+                                            <div class="result-header">
+                                                <div class="result-id">Match 5</div>
+                                                <div class="result-date">March 7, 2025</div>
+                                            </div>
+                                            <div class="result-teams">
+                                                <div class="result-team">
+                                                    <div class="team-name">Void Raiders</div>
+                                                    <div class="team-score">2</div>
+                                                </div>
+                                                <div class="result-team winner">
+                                                    <div class="team-name">Cyber Sentinels</div>
+                                                    <div class="team-score">3</div>
+                                                </div>
+                                            </div>
+                                            <div class="result-footer">
+                                                <div class="result-stats">Maps: Lunar Base (13-11), Neon City (7-13), Quantum Ruins (9-13), Void Station (13-7), Neo Tokyo (9-13)</div>
+                                                <a href="#" class="result-details-link">Details</a>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="result-match" data-status="completed">
+                                            <div class="result-header">
+                                                <div class="result-id">Match 6</div>
+                                                <div class="result-date">March 7, 2025</div>
+                                            </div>
+                                            <div class="result-teams">
+                                                <div class="result-team winner">
+                                                    <div class="team-name">Eclipse Squad</div>
+                                                    <div class="team-score">3</div>
+                                                </div>
+                                                <div class="result-team">
+                                                    <div class="team-name">Nexus Warriors</div>
+                                                    <div class="team-score">1</div>
+                                                </div>
+                                            </div>
+                                            <div class="result-footer">
+                                                <div class="result-stats">Maps: Lunar Base (13-9), Neon City (8-13), Quantum Ruins (13-5), Void Station (13-10)</div>
+                                                <a href="#" class="result-details-link">Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="results-section" data-section="finals">
+                                    <h3 class="results-section-title">Finals</h3>
+                                    
+                                    <div class="results-matches">
+                                        <div class="result-match" data-status="live">
+                                            <div class="result-header">
+                                                <div class="result-id">Grand Finals</div>
+                                                <div class="result-date">March 8, 2025</div>
+                                            </div>
+                                            <div class="result-teams">
+                                                <div class="result-team">
+                                                    <div class="team-name">Cyber Sentinels</div>
+                                                    <div class="team-score">2</div>
+                                                </div>
+                                                <div class="result-team">
+                                                    <div class="team-name">Eclipse Squad</div>
+                                                    <div class="team-score">2</div>
+                                                </div>
+                                            </div>
+                                            <div class="result-footer">
+                                                <div class="result-stats">Maps: Lunar Base (13-11), Neon City (9-13), Quantum Ruins (13-7), Void Station (10-13), Neo Tokyo (In Progress)</div>
+                                                <a href="#" class="result-details-link">Watch Live</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Teams Tab -->
+                    <div class="tab-pane" id="teams">
+                        <div class="teams-container">
+                            <h2 class="section-title">Tournament Teams</h2>
+                            
+                            <div class="teams-search">
+                                <input type="text" placeholder="Search teams..." class="teams-search-input">
+                            </div>
+                            
+                            <div class="teams-grid">
+                                <div class="team-card">
+                                    <div class="team-card-header">
+                                        <div class="team-logo large">VR</div>
+                                        <div class="team-seed-badge">1</div>
+                                    </div>
+                                    <div class="team-card-body">
+                                        <div class="team-name">Void Raiders</div>
+                                        <div class="team-record">Tournament: 4-3</div>
+                                        <div class="team-status">Eliminated in Semifinals</div>
+                                    </div>
+                                    <div class="team-card-footer">
+                                        <div class="team-stats">
+                                            <div class="team-stat">
+                                                <div class="stat-label">Win Rate</div>
+                                                <div class="stat-value">57%</div>
+                                            </div>
+                                            <div class="team-stat">
+                                                <div class="stat-label">Maps</div>
+                                                <div class="stat-value">7-5</div>
+                                            </div>
+                                            <div class="team-stat">
+                                                <div class="stat-label">Rounds</div>
+                                                <div class="stat-value">+23</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="team-card">
+                                    <div class="team-card-header">
+                                        <div class="team-logo large">SE</div>
+                                        <div class="team-seed-badge">2</div>
+                                    </div>
+                                    <div class="team-card-body">
+                                        <div class="team-name">Spectre Elite</div>
+                                        <div class="team-record">Tournament: 1-3</div>
+                                        <div class="team-status">Eliminated in Quarterfinals</div>
+                                    </div>
+                                    <div class="team-card-footer">
+                                        <div class="team-stats">
+                                            <div class="team-stat">
+                                                <div class="stat-label">Win Rate</div>
+                                                <div class="stat-value">25%</div>
+                                            </div>
+                                            <div class="team-stat">
+                                                <div class="stat-label">Maps</div>
+                                                <div class="stat-value">1-3</div>
+                                            </div>
+                                            <div class="team-stat">
+                                                <div class="stat-label">Rounds</div>
+                                                <div class="stat-value">-12</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="team-card">
+                                    <div class="team-card-header">
+                                        <div class="team-logo large">ES</div>
+                                        <div class="team-seed-badge">3</div>
+                                    </div>
+                                    <div class="team-card-body">
+                                        <div class="team-name">Eclipse Squad</div>
+                                        <div class="team-record">Tournament: 9-1</div>
+                                        <div class="team-status">In Grand Finals</div>
+                                    </div>
+                                    <div class="team-card-footer">
+                                        <div class="team-stats">
+                                            <div class="team-stat">
+                                                <div class="stat-label">Win Rate</div>
+                                                <div class="stat-value">90%</div>
+                                            </div>
+                                            <div class="team-stat">
+                                                <div class="stat-label">Maps</div>
+                                                <div class="stat-value">9-3</div>
+                                            </div>
+                                            <div class="team-stat">
+                                                <div class="stat-label">Rounds</div>
+                                                <div class="stat-value">+35</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="team-card">
+                                    <div class="team-card-header">
+                                        <div class="team-logo large">PO</div>
+                                        <div class="team-seed-badge">4</div>
+                                    </div>
+                                    <div class="team-card-body">
+                                        <div class="team-name">Phantom Ops</div>
+                                        <div class="team-record">Tournament: 2-3</div>
+                                        <div class="team-status">Eliminated in Quarterfinals</div>
+                                    </div>
+                                    <div class="team-card-footer">
+                                        <div class="team-stats">
+                                            <div class="team-stat">
+                                                <div class="stat-label">Win Rate</div>
+                                                <div class="stat-value">40%</div>
+                                            </div>
+                                            <div class="team-stat">
+                                                <div class="stat-label">Maps</div>
+                                                <div class="stat-value">2-3</div>
+                                            </div>
+                                            <div class="team-stat">
+                                                <div class="stat-label">Rounds</div>
+                                                <div class="stat-value">-4</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="team-card">
+                                    <div class="team-card-header">
+                                        <div class="team-logo large">CS</div>
+                                        <div class="team-seed-badge">5</div>
+                                    </div>
+                                    <div class="team-card-body">
+                                        <div class="team-name">Cyber Sentinels</div>
+                                        <div class="team-record">Tournament: 8-3</div>
+                                        <div class="team-status">In Grand Finals</div>
+                                    </div>
+                                    <div class="team-card-footer">
+                                        <div class="team-stats">
+                                            <div class="team-stat">
+                                                <div class="stat-label">Win Rate</div>
+                                                <div class="stat-value">72%</div>
+                                            </div>
+                                            <div class="team-stat">
+                                                <div class="stat-label">Maps</div>
+                                                <div class="stat-value">8-5</div>
+                                            </div>
+                                            <div class="team-stat">
+                                                <div class="stat-label">Rounds</div>
+                                                <div class="stat-value">+19</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="team-card">
+                                    <div class="team-card-header">
+                                        <div class="team-logo large">QF</div>
+                                        <div class="team-seed-badge">6</div>
+                                    </div>
+                                    <div class="team-card-body">
+                                        <div class="team-name">Quantum Force</div>
+                                        <div class="team-record">Tournament: 0-3</div>
+                                        <div class="team-status">Eliminated in Quarterfinals</div>
+                                    </div>
+                                    <div class="team-card-footer">
+                                        <div class="team-stats">
+                                            <div class="team-stat">
+                                                <div class="stat-label">Win Rate</div>
+                                                <div class="stat-value">0%</div>
+                                            </div>
+                                            <div class="team-stat">
+                                                <div class="stat-label">Maps</div>
+                                                <div class="stat-value">0-3</div>
+                                            </div>
+                                            <div class="team-stat">
+                                                <div class="stat-label">Rounds</div>
+                                                <div class="stat-value">-23</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="team-card">
+                                    <div class="team-card-header">
+                                        <div class="team-logo large">NW</div>
+                                        <div class="team-seed-badge">7</div>
+                                    </div>
+                                    <div class="team-card-body">
+                                        <div class="team-name">Nexus Warriors</div>
+                                        <div class="team-record">Tournament: 4-4</div>
+                                        <div class="team-status">Eliminated in Semifinals</div>
+                                    </div>
+                                    <div class="team-card-footer">
+                                        <div class="team-stats">
+                                            <div class="team-stat">
+                                                <div class="stat-label">Win Rate</div>
+                                                <div class="stat-value">50%</div>
+                                            </div>
+                                            <div class="team-stat">
+                                                <div class="stat-label">Maps</div>
+                                                <div class="stat-value">4-5</div>
+                                            </div>
+                                            <div class="team-stat">
+                                                <div class="stat-label">Rounds</div>
+                                                <div class="stat-value">-8</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="team-card">
+                                    <div class="team-card-header">
+                                        <div class="team-logo large">NK</div>
+                                        <div class="team-seed-badge">8</div>
+                                    </div>
+                                    <div class="team-card-body">
+                                        <div class="team-name">Neon Knights</div>
+                                        <div class="team-record">Tournament: 1-3</div>
+                                        <div class="team-status">Eliminated in Quarterfinals</div>
+                                    </div>
+                                    <div class="team-card-footer">
+                                        <div class="team-stats">
+                                            <div class="team-stat">
+                                                <div class="stat-label">Win Rate</div>
+                                                <div class="stat-value">25%</div>
+                                            </div>
+                                            <div class="team-stat">
+                                                <div class="stat-label">Maps</div>
+                                                <div class="stat-value">1-3</div>
+                                            </div>
+                                            <div class="team-stat">
+                                                <div class="stat-label">Rounds</div>
+                                                <div class="stat-value">-15</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Stats Tab -->
+                    <div class="tab-pane" id="stats">
+                        <div class="stats-container">
+                            <h2 class="section-title">Tournament Statistics</h2>
+                            
+                            <div class="stats-nav">
+                                <button class="stats-nav-item active" data-stats="team">Team Stats</button>
+                                <button class="stats-nav-item" data-stats="player">Player Stats</button>
+                                <button class="stats-nav-item" data-stats="maps">Map Stats</button>
+                            </div>
+                            
+                            <div class="stats-content">
+                                <!-- Team Stats View -->
+                                <div class="stats-pane active" id="team-stats">
+                                    <div class="stats-filters">
+                                        <select class="stats-filter">
+                                            <option value="all">All Matches</option>
+                                            <option value="quarterfinals">Quarterfinals</option>
+                                            <option value="semifinals">Semifinals</option>
+                                            <option value="finals">Finals</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="stats-table-wrapper">
+                                        <table class="stats-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="rank">#</th>
+                                                    <th class="team">Team</th>
+                                                    <th>Matches</th>
+                                                    <th>W-L</th>
+                                                    <th>Maps</th>
+                                                    <th>Win %</th>
+                                                    <th>Rounds</th>
+                                                    <th>Rd +/-</th>
+                                                    <th>Avg Score</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="rank">1</td>
+                                                    <td class="team"><div class="team-logo small">ES</div> Eclipse Squad</td>
+                                                    <td>3</td>
+                                                    <td>3-0</td>
+                                                    <td>9-3</td>
+                                                    <td>75%</td>
+                                                    <td>135-100</td>
+                                                    <td>+35</td>
+                                                    <td>12.3</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="rank">2</td>
+                                                    <td class="team"><div class="team-logo small">CS</div> Cyber Sentinels</td>
+                                                    <td>3</td>
+                                                    <td>3-0</td>
+                                                    <td>8-5</td>
+                                                    <td>61.5%</td>
+                                                    <td>127-108</td>
+                                                    <td>+19</td>
+                                                    <td>11.5</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="rank">3</td>
+                                                    <td class="team"><div class="team-logo small">VR</div> Void Raiders</td>
+                                                    <td>2</td>
+                                                    <td>1-1</td>
+                                                    <td>5-5</td>
+                                                    <td>50%</td>
+                                                    <td>114-91</td>
+                                                    <td>+23</td>
+                                                    <td>11.4</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="rank">4</td>
+                                                    <td class="team"><div class="team-logo small">NW</div> Nexus Warriors</td>
+                                                    <td>2</td>
+                                                    <td>1-1</td>
+                                                    <td>4-5</td>
+                                                    <td>44.4%</td>
+                                                    <td>102-110</td>
+                                                    <td>-8</td>
+                                                    <td>10.2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="rank">5</td>
+                                                    <td class="team"><div class="team-logo small">PO</div> Phantom Ops</td>
+                                                    <td>1</td>
+                                                    <td>0-1</td>
+                                                    <td>2-3</td>
+                                                    <td>40%</td>
+                                                    <td>46-50</td>
+                                                    <td>-4</td>
+                                                    <td>9.2</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="rank">6</td>
+                                                    <td class="team"><div class="team-logo small">NK</div> Neon Knights</td>
+                                                    <td>1</td>
+                                                    <td>0-1</td>
+                                                    <td>1-3</td>
+                                                    <td>25%</td>
+                                                    <td>35-50</td>
+                                                    <td>-15</td>
+                                                    <td>8.8</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="rank">7</td>
+                                                    <td class="team"><div class="team-logo small">SE</div> Spectre Elite</td>
+                                                    <td>1</td>
+                                                    <td>0-1</td>
+                                                    <td>1-3</td>
+                                                    <td>25%</td>
+                                                    <td>35-47</td>
+                                                    <td>-12</td>
+                                                    <td>8.8</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="rank">8</td>
+                                                    <td class="team"><div class="team-logo small">QF</div> Quantum Force</td>
+                                                    <td>1</td>
+                                                    <td>0-1</td>
+                                                    <td>0-3</td>
+                                                    <td>0%</td>
+                                                    <td>23-39</td>
+                                                    <td>-16</td>
+                                                    <td>7.7</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                                <!-- Player Stats View -->
+                                <div class="stats-pane" id="player-stats">
+                                    <div class="stats-filters">
+                                        <select class="stats-filter">
+                                            <option value="all">All Players</option>
+                                            <option value="remaining">Remaining Teams</option>
+                                            <option value="eliminated">Eliminated Teams</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="stats-table-wrapper">
+                                        <table class="stats-table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="rank">#</th>
+                                                    <th class="player">Player</th>
+                                                    <th>Team</th>
+                                                    <th>Maps</th>
+                                                    <th>K/D</th>
+                                                    <th>K/D Ratio</th>
+                                                    <th>KPR</th>
+                                                    <th>ADR</th>
+                                                    <th>Rating</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="rank">1</td>
+                                                    <td class="player">NightHawk</td>
+                                                    <td><div class="team-logo small">ES</div> Eclipse Squad</td>
+                                                    <td>12</td>
+                                                    <td>245-167</td>
+                                                    <td>1.47</td>
+                                                    <td>0.94</td>
+                                                    <td>186.5</td>
+                                                    <td>1.32</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="rank">2</td>
+                                                    <td class="player">CyberKnight</td>
+                                                    <td><div class="team-logo small">CS</div> Cyber Sentinels</td>
+                                                    <td>13</td>
+                                                    <td>258-184</td>
+                                                    <td>1.40</td>
+                                                    <td>0.92</td>
+                                                    <td>178.3</td>
+                                                    <td>1.29</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="rank">3</td>
+                                                    <td class="player">VoidWalker</td>
+                                                    <td><div class="team-logo small">VR</div> Void Raiders</td>
+                                                    <td>10</td>
+                                                    <td>211-160</td>
+                                                    <td>1.32</td>
+                                                    <td>0.91</td>
+                                                    <td>172.5</td>
+                                                    <td>1.27</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="rank">4</td>
+                                                    <td class="player">Quantum</td>
+                                                    <td><div class="team-logo small">ES</div> Eclipse Squad</td>
+                                                    <td>12</td>
+                                                    <td>234-180</td>
+                                                    <td>1.30</td>
+                                                    <td>0.89</td>
+                                                    <td>169.8</td>
+                                                    <td>1.25</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="rank">5</td>
+                                                    <td class="player">Circuit</td>
+                                                    <td><div class="team-logo small">CS</div> Cyber Sentinels</td>
+                                                    <td>13</td>
+                                                    <td>225-182</td>
+                                                    <td>1.24</td>
+                                                    <td>0.87</td>
+                                                    <td>165.2</td>
+                                                    <td>1.22</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="rank">6</td>
+                                                    <td class="player">Shadow</td>
+                                                    <td><div class="team-logo small">NW</div> Nexus Warriors</td>
+                                                    <td>9</td>
+                                                    <td>187-155</td>
+                                                    <td>1.21</td>
+                                                    <td>0.85</td>
+                                                    <td>162.7</td>
+                                                    <td>1.20</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="rank">7</td>
+                                                    <td class="player">Phantom</td>
+                                                    <td><div class="team-logo small">PO</div> Phantom Ops</td>
+                                                    <td>5</td>
+                                                    <td>98-87</td>
+                                                    <td>1.13</td>
+                                                    <td>0.82</td>
+                                                    <td>158.4</td>
+                                                    <td>1.15</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="rank">8</td>
+                                                    <td class="player">Spectre</td>
+                                                    <td><div class="team-logo small">SE</div> Spectre Elite</td>
+                                                    <td>4</td>
+                                                    <td>83-85</td>
+                                                    <td>0.98</td>
+                                                    <td>0.77</td>
+                                                    <td>152.3</td>
+                                                    <td>1.08</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                
+                                <!-- Map Stats View -->
+                                <div class="stats-pane" id="map-stats">
+                                    <div class="map-stats-grid">
+                                        <div class="map-stat-card">
+                                            <div class="map-stat-header">
+                                                <div class="map-name">Lunar Base</div>
+                                                <div class="map-image"></div>
+                                            </div>
+                                            <div class="map-stat-body">
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Played</div>
+                                                    <div class="stat-value">8 times</div>
+                                                </div>
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Avg. Rounds</div>
+                                                    <div class="stat-value">23.5</div>
+                                                </div>
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Side Win %</div>
+                                                    <div class="stat-value">Atk: 46% / Def: 54%</div>
+                                                </div>
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Top Team</div>
+                                                    <div class="stat-value">Eclipse Squad (3-0)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="map-stat-card">
+                                            <div class="map-stat-header">
+                                                <div class="map-name">Neon City</div>
+                                                <div class="map-image"></div>
+                                            </div>
+                                            <div class="map-stat-body">
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Played</div>
+                                                    <div class="stat-value">8 times</div>
+                                                </div>
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Avg. Rounds</div>
+                                                    <div class="stat-value">24.1</div>
+                                                </div>
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Side Win %</div>
+                                                    <div class="stat-value">Atk: 51% / Def: 49%</div>
+                                                </div>
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Top Team</div>
+                                                    <div class="stat-value">Cyber Sentinels (2-1)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="map-stat-card">
+                                            <div class="map-stat-header">
+                                                <div class="map-name">Quantum Ruins</div>
+                                                <div class="map-image"></div>
+                                            </div>
+                                            <div class="map-stat-body">
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Played</div>
+                                                    <div class="stat-value">7 times</div>
+                                                </div>
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Avg. Rounds</div>
+                                                    <div class="stat-value">21.9</div>
+                                                </div>
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Side Win %</div>
+                                                    <div class="stat-value">Atk: 43% / Def: 57%</div>
+                                                </div>
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Top Team</div>
+                                                    <div class="stat-value">Eclipse Squad (2-0)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="map-stat-card">
+                                            <div class="map-stat-header">
+                                                <div class="map-name">Void Station</div>
+                                                <div class="map-image"></div>
+                                            </div>
+                                            <div class="map-stat-body">
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Played</div>
+                                                    <div class="stat-value">7 times</div>
+                                                </div>
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Avg. Rounds</div>
+                                                    <div class="stat-value">22.7</div>
+                                                </div>
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Side Win %</div>
+                                                    <div class="stat-value">Atk: 48% / Def: 52%</div>
+                                                </div>
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Top Team</div>
+                                                    <div class="stat-value">Nexus Warriors (2-0)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="map-stat-card">
+                                            <div class="map-stat-header">
+                                                <div class="map-name">Neo Tokyo</div>
+                                                <div class="map-image"></div>
+                                            </div>
+                                            <div class="map-stat-body">
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Played</div>
+                                                    <div class="stat-value">3 times</div>
+                                                </div>
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Avg. Rounds</div>
+                                                    <div class="stat-value">23.3</div>
+                                                </div>
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Side Win %</div>
+                                                    <div class="stat-value">Atk: 45% / Def: 55%</div>
+                                                </div>
+                                                <div class="map-stat-row">
+                                                    <div class="stat-label">Top Team</div>
+                                                    <div class="stat-value">Cyber Sentinels (2-0)</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Prize Pool Tab -->
+                    <div class="tab-pane" id="prize">
+                        <div class="prize-container">
+                            <h2 class="section-title">Tournament Prize Pool</h2>
+                            
+                            <div class="prize-overview">
+                                <div class="prize-total">
+                                    <div class="prize-amount">$150,000</div>
+                                    <div class="prize-label">Total Prize Pool</div>
+                                </div>
+                                
+                                <div class="prize-distribution-visual">
+                                    <div class="prize-bar first-place" style="width: 50%;">
+                                        <div class="prize-bar-label">1st: $75,000</div>
+                                    </div>
+                                    <div class="prize-bar second-place" style="width: 30%;">
+                                        <div class="prize-bar-label">2nd: $45,000</div>
+                                    </div>
+                                    <div class="prize-bar third-place" style="width: 10%;">
+                                        <div class="prize-bar-label">3rd-4th: $15,000</div>
+                                    </div>
+                                    <div class="prize-bar other-place" style="width: 10%;">
+                                        <div class="prize-bar-label">5th-8th: $15,000</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="prize-breakdown">
+                                <h3>Prize Breakdown</h3>
+                                
+                                <div class="prize-table-wrapper">
+                                    <table class="prize-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Placement</th>
+                                                <th>Prize</th>
+                                                <th>Team</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="first-place">
+                                                <td>1st Place</td>
+                                                <td>$75,000</td>
+                                                <td>TBD</td>
+                                                <td><span class="status-badge pending">Pending</span></td>
+                                            </tr>
+                                            <tr class="second-place">
+                                                <td>2nd Place</td>
+                                                <td>$45,000</td>
+                                                <td>TBD</td>
+                                                <td><span class="status-badge pending">Pending</span></td>
+                                            </tr>
+                                            <tr class="third-place">
+                                                <td>3rd-4th Place</td>
+                                                <td>$7,500</td>
+                                                <td>Void Raiders</td>
+                                                <td><span class="status-badge confirmed">Confirmed</span></td>
+                                            </tr>
+                                            <tr class="third-place">
+                                                <td>3rd-4th Place</td>
+                                                <td>$7,500</td>
+                                                <td>Nexus Warriors</td>
+                                                <td><span class="status-badge confirmed">Confirmed</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>5th-8th Place</td>
+                                                <td>$3,750</td>
+                                                <td>Phantom Ops</td>
+                                                <td><span class="status-badge confirmed">Confirmed</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>5th-8th Place</td>
+                                                <td>$3,750</td>
+                                                <td>Neon Knights</td>
+                                                <td><span class="status-badge confirmed">Confirmed</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>5th-8th Place</td>
+                                                <td>$3,750</td>
+                                                <td>Spectre Elite</td>
+                                                <td><span class="status-badge confirmed">Confirmed</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>5th-8th Place</td>
+                                                <td>$3,750</td>
+                                                <td>Quantum Force</td>
+                                                <td><span class="status-badge confirmed">Confirmed</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            
+                            <div class="prize-sponsors">
+                                <h3>Sponsors</h3>
+                                
+                                <div class="sponsors-grid">
+                                    <div class="sponsor-card">
+                                        <div class="sponsor-logo primary"></div>
+                                        <div class="sponsor-name">TechNova</div>
+                                        <div class="sponsor-type">Primary Sponsor</div>
+                                    </div>
+                                    
+                                    <div class="sponsor-card">
+                                        <div class="sponsor-logo secondary"></div>
+                                        <div class="sponsor-name">Quantum Gaming</div>
+                                        <div class="sponsor-type">Hardware Partner</div>
+                                    </div>
+                                    
+                                    <div class="sponsor-card">
+                                        <div class="sponsor-logo secondary"></div>
+                                        <div class="sponsor-name">NeoStream</div>
+                                        <div class="sponsor-type">Media Partner</div>
+                                    </div>
+                                    
+                                    <div class="sponsor-card">
+                                        <div class="sponsor-logo secondary"></div>
+                                        <div class="sponsor-name">CyberFuel</div>
+                                        <div class="sponsor-type">Energy Drink Sponsor</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Champion Display (Would be shown when tournament is complete) -->
+            <div class="champion-display" style="display: none;">
+                <div class="champion-label">Tournament Champion</div>
+                <div class="champion-trophy">🏆</div>
+                <div class="champion-name">Cyber Sentinels</div>
+                <div class="champion-info">Congratulations to the Cyber Sentinels for winning the Winter Championship 2025! After an incredible tournament run, they've proven themselves as the best Spectre Divide team in the world.</div>
+                <div class="champion-date">March 08, 2025</div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo-image small"></div>
+                    <div class="logo-text small">Spectre <span>Divide</span></div>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Official Game Site</a>
+                    <a href="#">News</a>
+                    <a href="#">Support</a>
+                    <a href="#">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="#" class="social-icon">Twitter</a>
+                    <a href="#" class="social-icon">Twitch</a>
+                    <a href="#" class="social-icon">Discord</a>
+                    <a href="#" class="social-icon">YouTube</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">© 2025 Spectre Divide Tournament. All rights reserved.</div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

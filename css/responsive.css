@@ -1,0 +1,398 @@
+/* responsive.css - Spectre Divide Tournament Responsive Styles */
+
+/* Large Desktop (1200px and up) */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1600px;
+    }
+    
+    .bracket {
+        min-width: 1200px;
+    }
+}
+
+/* Desktop (992px - 1199px) */
+@media (max-width: 1199px) {
+    .container {
+        max-width: 960px;
+    }
+    
+    .tournament-title {
+        font-size: 2rem;
+    }
+    
+    .match-card {
+        width: 260px;
+    }
+    
+    .bracket {
+        min-width: 1050px;
+    }
+    
+    .admin-controls {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Tablet (768px - 991px) */
+@media (max-width: 991px) {
+    .container {
+        max-width: 720px;
+    }
+    
+    .tournament-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .tournament-meta {
+        margin-top: 15px;
+    }
+    
+    .tournament-title {
+        font-size: 1.8rem;
+    }
+    
+    .admin-controls {
+        grid-template-columns: 1fr;
+    }
+    
+    .match-teams {
+        padding: 12px;
+    }
+    
+    .match-team {
+        padding: 12px;
+    }
+    
+    .match-score {
+        margin: 0 15px;
+        padding: 10px 20px;
+    }
+    
+    .match-score-value {
+        font-size: 2rem;
+        margin: 0 10px;
+    }
+    
+    .map-stats-grid,
+    .sponsors-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .bracket {
+        min-width: 900px;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 20px;
+        align-items: flex-start;
+    }
+    
+    .footer-links,
+    .footer-social {
+        flex-wrap: wrap;
+    }
+}
+
+/* Mobile (576px - 767px) */
+@media (max-width: 767px) {
+    .container {
+        width: 100%;
+        padding: 0 15px;
+    }
+    
+    .site-header {
+        padding: 10px 0;
+    }
+    
+    .logo-text::after {
+        display: none;
+    }
+    
+    .tournament-title {
+        font-size: 1.5rem;
+    }
+    
+    .tournament-header {
+        padding: 15px;
+    }
+    
+    .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .admin-controls-top {
+        width: 100%;
+    }
+    
+    .admin-actions {
+        flex-wrap: wrap;
+    }
+    
+    .admin-card {
+        padding: 15px;
+    }
+    
+    .match-details {
+        padding: 15px;
+    }
+    
+    .match-details-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .edit-controls {
+        width: 100%;
+    }
+    
+    .match-teams {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .match-score {
+        margin: 15px 0;
+    }
+    
+    .schedule-match {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .match-time {
+        text-align: center;
+    }
+    
+    .match-info {
+        text-align: center;
+    }
+    
+    .teams-grid,
+    .map-stats-grid,
+    .sponsors-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .prize-bar-label {
+        font-size: 0.7rem;
+    }
+    
+    .bracket {
+        min-width: 800px;
+    }
+    
+    .bracket-round {
+        margin-right: 30px;
+    }
+    
+    .match-card {
+        width: 230px;
+    }
+    
+    .team-name {
+        max-width: 120px;
+    }
+    
+    .stats-nav {
+        flex-wrap: wrap;
+    }
+    
+    .stats-nav-item {
+        padding: 8px 12px;
+    }
+    
+    .modal-content {
+        width: 95%;
+    }
+    
+    .footer-content {
+        gap: 15px;
+    }
+    
+    .footer-links,
+    .footer-social {
+        gap: 10px;
+    }
+    
+    .footer-bottom {
+        font-size: 0.7rem;
+    }
+}
+
+/* Small Mobile (up to 575px) */
+@media (max-width: 575px) {
+    .logo-image {
+        width: 35px;
+        height: 35px;
+        margin-right: 10px;
+    }
+    
+    .logo-text {
+        font-size: 1.2rem;
+    }
+    
+    .nav-buttons {
+        gap: 8px;
+    }
+    
+    .login-button,
+    .view-site-button,
+    .logout-button {
+        padding: 6px 10px;
+        font-size: 0.7rem;
+    }
+    
+    .admin-badge {
+        font-size: 0.6rem;
+        padding: 2px 5px;
+    }
+    
+    .tournament-title {
+        font-size: 1.3rem;
+    }
+    
+    .tournament-status,
+    .tournament-format {
+        font-size: 0.7rem;
+    }
+    
+    .btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .bracket-nav-item {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .match-details-title {
+        font-size: 1.3rem;
+    }
+    
+    .match-team-name {
+        font-size: 1.2rem;
+    }
+    
+    .match-score-value {
+        font-size: 1.8rem;
+    }
+    
+    .champion-name {
+        font-size: 1.8rem;
+    }
+    
+    .champion-info {
+        font-size: 0.9rem;
+    }
+    
+    .stats-table {
+        font-size: 0.8rem;
+    }
+    
+    .prize-amount {
+        font-size: 2rem;
+    }
+    
+    .modal-content {
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        border-radius: 0;
+    }
+}
+
+/* Landscape mobile adjustments */
+@media (max-height: 500px) and (orientation: landscape) {
+    .modal-content {
+        height: auto;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    
+    .match-teams {
+        flex-direction: row;
+    }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    body {
+        /* Adjust for retina displays */
+    }
+}
+
+/* Print styles */
+@media print {
+    body {
+        background: white;
+        color: black;
+        font-size: 12pt;
+    }
+    
+    .site-header,
+    .site-footer,
+    .admin-panel,
+    .admin-actions,
+    .edit-controls,
+    .bracket-nav {
+        display: none;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: none;
+        padding: 0;
+    }
+    
+    .tournament-header {
+        background: none;
+        border: 1px solid #ccc;
+        box-shadow: none;
+        padding: 15px;
+    }
+    
+    .tournament-title {
+        color: black;
+        text-shadow: none;
+    }
+    
+    .match-card,
+    .team-row,
+    .match-details,
+    .champion-display {
+        background: none;
+        border: 1px solid #ccc;
+        box-shadow: none;
+    }
+    
+    .bracket-container {
+        overflow: visible;
+    }
+    
+    .bracket {
+        min-width: 0;
+        transform: scale(0.8);
+        transform-origin: left top;
+    }
+    
+    a {
+        color: black;
+        text-decoration: underline;
+    }
+    
+    .match-score-value,
+    .team-score,
+    .team-name,
+    .match-details-title,
+    .champion-name {
+        color: black;
+        text-shadow: none;
+    }
+}

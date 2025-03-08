@@ -1,0 +1,90 @@
+/* variables.css - Spectre Divide Tournament Color Scheme */
+
+:root {
+    /* Main color scheme */
+    --spectre-yellow: #FFCB00;
+    --spectre-pink: #F73D72;
+    --spectre-green: #24EDAE;
+    --spectre-blue: #4BF9FC;
+    --spectre-black: #000000;
+    --spectre-white: #F2F2F2;
+    --spectre-grey: #414141;
+    --spectre-light-grey: #D4D4CC;
+    --spectre-red: #FF3A44;
+    --flashpoint-green: #C6EA34;
+    
+    /* Additional shades */
+    --spectre-dark-grey: #232323;
+    --spectre-blue-glow: rgba(75, 249, 252, 0.5);
+    --spectre-pink-glow: rgba(247, 61, 114, 0.5);
+    --spectre-yellow-glow: rgba(255, 203, 0, 0.5);
+    --spectre-green-glow: rgba(36, 237, 174, 0.5);
+    
+    /* Gradients */
+    --gradient-blue-green: linear-gradient(90deg, var(--spectre-blue) 0%, var(--spectre-green) 100%);
+    --gradient-pink-blue: linear-gradient(90deg, var(--spectre-pink) 0%, var(--spectre-blue) 100%);
+    --gradient-yellow-green: linear-gradient(90deg, var(--spectre-yellow) 0%, var(--spectre-green) 100%);
+    --gradient-pink-yellow: linear-gradient(90deg, var(--spectre-pink) 0%, var(--spectre-yellow) 100%);
+    
+    /* Background gradients */
+    --bg-gradient-dark: linear-gradient(135deg, var(--spectre-black) 0%, var(--spectre-dark-grey) 100%);
+    --bg-gradient-card: linear-gradient(135deg, rgba(35, 35, 35, 0.7) 0%, rgba(25, 25, 25, 0.7) 100%);
+    
+    /* Status colors */
+    --status-upcoming: var(--spectre-blue);
+    --status-live: var(--spectre-red);
+    --status-completed: var(--spectre-green);
+    --status-pending: var(--spectre-yellow);
+    
+    /* Shadows */
+    --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.3);
+    
+    /* Glows */
+    --glow-blue: 0 0 15px var(--spectre-blue-glow);
+    --glow-pink: 0 0 15px var(--spectre-pink-glow);
+    --glow-yellow: 0 0 15px var(--spectre-yellow-glow);
+    --glow-green: 0 0 15px var(--spectre-green-glow);
+    
+    /* Borders */
+    --border-light: 1px solid rgba(255, 255, 255, 0.05);
+    --border-blue: 1px solid rgba(75, 249, 252, 0.3);
+    --border-pink: 1px solid rgba(247, 61, 114, 0.3);
+    --border-yellow: 1px solid rgba(255, 203, 0, 0.3);
+    
+    /* Border radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 15px;
+    --radius-full: 50%;
+    
+    /* Transitions */
+    --transition-fast: all 0.2s ease;
+    --transition-normal: all 0.3s ease;
+    --transition-slow: all 0.5s ease;
+    
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-xxl: 3rem;
+    
+    /* Font sizes */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-md: 1rem;
+    --text-lg: 1.25rem;
+    --text-xl: 1.5rem;
+    --text-2xl: 2rem;
+    --text-3xl: 2.5rem;
+    
+    /* Z-indices */
+    --z-negative: -1;
+    --z-base: 1;
+    --z-tooltip: 10;
+    --z-fixed: 100;
+    --z-modal: 1000;
+}
