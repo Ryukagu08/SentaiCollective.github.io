@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/optimized.css">
-    <!-- Preload critical scripts -->
-    <link rel="preload" href="js/main.js" as="script">
-    <script src="js/main.js" defer></script>
+    <link rel="stylesheet" href="css/notification.css">
+    <link rel="stylesheet" href="css/enhancements.css">
+    <!-- Load scripts with proper names -->
+    <script src="js/notification.js" defer></script>
     <script src="js/bracket.js" defer></script>
+    <script src="js/main.js" defer></script>
     <script src="js/info-sync.js" defer></script>
 </head>
 <body class="user-view">
@@ -58,11 +59,7 @@
                                 <!-- Connector lines will be drawn dynamically with JavaScript -->
                                 <div class="connector-container" id="connector-container"></div>
                                 
-                                <!-- Tournament bracket content would be here - simplified for brevity -->
-                                <!-- The structure remains the same as the original, just optimized -->
-                                
-                                <!-- Quarterfinals, Semifinals, and Finals -->
-                                <!-- Each with bracket-round, bracket-matches, and match cards -->
+                                <!-- Tournament bracket content will be generated dynamically -->
                             </div>
                         </div>
                         
@@ -92,14 +89,51 @@
                                 </div>
                             </div>
                             
-                            <!-- Match info grid and maps would be here -->
-                            <!-- Simplified for brevity -->
+                            <div class="match-info-grid">
+                                <div class="match-info-item">
+                                    <div class="match-info-label">Status</div>
+                                    <div class="match-info-value">Live</div>
+                                </div>
+                                <div class="match-info-item">
+                                    <div class="match-info-label">Stage</div>
+                                    <div class="match-info-value">Finals</div>
+                                </div>
+                                <div class="match-info-item">
+                                    <div class="match-info-label">Format</div>
+                                    <div class="match-info-value">Best of 7</div>
+                                </div>
+                                <div class="match-info-item">
+                                    <div class="match-info-label">Date</div>
+                                    <div class="match-info-value">March 8, 2025</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
-                    <!-- Other tabs (Schedule, Results, Teams, Stats, Prize) would be here -->
-                    <!-- Each in their own tab-pane div with id matching the data-tab value -->
-                    <!-- Simplified for brevity -->
+                    <!-- Schedule Tab -->
+                    <div class="tab-pane" id="schedule">
+                        <p>Schedule information would appear here.</p>
+                    </div>
+                    
+                    <!-- Results Tab -->
+                    <div class="tab-pane" id="results">
+                        <p>Results information would appear here.</p>
+                    </div>
+                    
+                    <!-- Teams Tab -->
+                    <div class="tab-pane" id="teams">
+                        <p>Team details would appear here.</p>
+                    </div>
+                    
+                    <!-- Stats Tab -->
+                    <div class="tab-pane" id="stats">
+                        <p>Statistics would appear here.</p>
+                    </div>
+                    
+                    <!-- Prize Tab -->
+                    <div class="tab-pane" id="prize">
+                        <p>Prize pool information would appear here.</p>
+                    </div>
                 </div>
             </div>
             

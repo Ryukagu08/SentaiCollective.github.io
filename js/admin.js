@@ -1,9 +1,9 @@
 /**
- * optimized-admin.js - Spectre Divide Tournament
- * Performance-optimized admin functionality
+ * admin.js - Spectre Divide Tournament
+ * Fixed and simplified admin functionality
  */
 
-// Single global state object for tournament data
+// Initialize the global state object with default values
 const tournamentState = {
     name: 'Winter Championship 2025',
     format: 'single',
@@ -13,11 +13,32 @@ const tournamentState = {
     changes: false
 };
 
-// Cache DOM elements for improved performance
+// DOM elements cache - initialized as empty object
 const domCache = {};
 
-// Function to cache frequently accessed DOM elements
+// Wait for DOM to be fully loaded before initializing
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Admin JS loaded');
+    
+    // Cache DOM elements for better performance
+    cacheDOMElements();
+    
+    // Check authentication
+    checkAuth();
+    
+    // Initialize admin features
+    initAdminFunctionality();
+    
+    // Load any previously saved data
+    loadSavedData();
+});
+
+/**
+ * Cache frequently accessed DOM elements
+ */
 function cacheDOMElements() {
+    console.log('Caching DOM elements');
+    
     // Tournament settings elements
     domCache.tournamentName = document.getElementById('tournament-name');
     domCache.tournamentFormat = document.getElementById('tournament-format');
@@ -25,7 +46,7 @@ function cacheDOMElements() {
     domCache.tournamentDate = document.getElementById('tournament-date');
     domCache.tournamentEndDate = document.getElementById('tournament-end-date');
     
-    // Tournament header elements (user-facing)
+    // Tournament header elements
     domCache.tournamentTitle = document.querySelector('.tournament-title');
     domCache.tournamentFormatDisplay = document.querySelector('.tournament-format');
     domCache.tournamentStatusDisplay = document.querySelector('.tournament-status');
@@ -36,6 +57,7 @@ function cacheDOMElements() {
     domCache.generateBracketBtn = document.getElementById('generate-bracket');
     domCache.resetScoresBtn = document.getElementById('reset-scores');
     domCache.saveChangesBtn = document.getElementById('save-all-changes');
+    domCache.saveChangesFooterBtn = document.getElementById('save-all-changes-footer');
     
     // Team management
     domCache.teamNameInput = document.getElementById('team-name');
@@ -44,15 +66,10 @@ function cacheDOMElements() {
     
     // Other sections
     domCache.championDisplay = document.querySelector('.champion-display');
+    
+    // Debug output of cached elements
+    console.log('DOM Elements cached:', Object.keys(domCache));
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize on DOM load
-    cacheDOMElements();
-    checkAuth();
-    initAdminFunctionality();
-    loadSavedData();
-});
 
 /**
  * Check authentication
@@ -60,7 +77,10 @@ document.addEventListener('DOMContentLoaded', function() {
 function checkAuth() {
     const token = localStorage.getItem('auth');
     if (!token) {
+        console.log('Not authenticated, redirecting to login');
         window.location.href = 'login.html?redirect=admin';
+    } else {
+        console.log('Authentication verified');
     }
 }
 
@@ -68,57 +88,90 @@ function checkAuth() {
  * Initialize all admin functionality
  */
 function initAdminFunctionality() {
-    // Use event delegation for better performance
+    console.log('Initializing admin functionality');
+    
+    // Attach event listeners
     attachEventListeners();
     
     // Initialize modals
     initModals();
+    
+    // Initialize tabs
+    initTabs();
 }
 
 /**
- * Attach event listeners using delegation where possible
+ * Attach all event listeners
  */
 function attachEventListeners() {
+    console.log('Attaching event listeners');
+    
     // Tournament settings
     if (domCache.updateTournamentBtn) {
-        domCache.updateTournamentBtn.addEventListener('click', updateTournamentSettings);
+        domCache.updateTournamentBtn.addEventListener('click', function() {
+            console.log('Update tournament button clicked');
+            updateTournamentSettings();
+        });
+    } else {
+        console.warn('Update tournament button not found in DOM');
     }
     
     // Team management
     if (domCache.addTeamBtn) {
-        domCache.addTeamBtn.addEventListener('click', handleAddTeam);
+        domCache.addTeamBtn.addEventListener('click', function() {
+            console.log('Add team button clicked');
+            handleAddTeam();
+        });
+    } else {
+        console.warn('Add team button not found in DOM');
     }
     
     // Tournament status
     if (domCache.tournamentStatus) {
         domCache.tournamentStatus.addEventListener('change', function() {
+            console.log('Tournament status changed to:', this.value);
             updateTournamentStatus(this.value);
         });
     }
     
-    // Save changes
+    // Save changes (both buttons)
     if (domCache.saveChangesBtn) {
-        domCache.saveChangesBtn.addEventListener('click', saveTournamentData);
+        domCache.saveChangesBtn.addEventListener('click', function() {
+            console.log('Save changes button clicked');
+            saveTournamentData();
+        });
     }
     
-    // Team list event delegation
+    if (domCache.saveChangesFooterBtn) {
+        domCache.saveChangesFooterBtn.addEventListener('click', function() {
+            console.log('Save changes footer button clicked');
+            saveTournamentData();
+        });
+    }
+    
+    // Team list event delegation for edit/remove
     if (domCache.teamList) {
         domCache.teamList.addEventListener('click', function(e) {
             // Handle team edit button
             if (e.target.classList.contains('edit-team-btn')) {
+                console.log('Edit team button clicked');
                 handleEditTeam(e);
             }
             
             // Handle team remove button
             if (e.target.classList.contains('remove-team-btn')) {
+                console.log('Remove team button clicked');
                 handleRemoveTeam(e);
             }
         });
+    } else {
+        console.warn('Team list not found in DOM');
     }
     
     // Bracket generation
     if (domCache.generateBracketBtn) {
         domCache.generateBracketBtn.addEventListener('click', function() {
+            console.log('Generate bracket button clicked');
             const teams = getTeamsFromList();
             if (teams.length < 4) {
                 showNotification('Need at least 4 teams to generate a bracket', 'error');
@@ -136,6 +189,7 @@ function attachEventListeners() {
     // Reset scores
     if (domCache.resetScoresBtn) {
         domCache.resetScoresBtn.addEventListener('click', function() {
+            console.log('Reset scores button clicked');
             showConfirmModal('Are you sure you want to reset all scores?', function() {
                 resetAllScores();
                 tournamentState.changes = true;
@@ -144,15 +198,47 @@ function attachEventListeners() {
         });
     }
     
-    // Logout button
+    // Logout buttons
     document.getElementById('logout-button')?.addEventListener('click', logout);
     document.getElementById('logout')?.addEventListener('click', logout);
+    
+    // Log all the event listeners that were successfully attached
+    console.log('Event listeners attached');
+}
+
+/**
+ * Initialize tab navigation system
+ */
+function initTabs() {
+    const tabButtons = document.querySelectorAll('.bracket-nav-item');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+    
+    tabButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Get the tab to activate
+            const tabToActivate = this.getAttribute('data-tab');
+            
+            // Remove active class from all tabs and panes
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabPanes.forEach(pane => pane.classList.remove('active'));
+            
+            // Add active class to clicked tab and corresponding pane
+            this.classList.add('active');
+            document.getElementById(tabToActivate)?.classList.add('active');
+            
+            // Re-draw connectors if bracket tab
+            if (tabToActivate === 'bracket' && typeof drawConnectors === 'function') {
+                setTimeout(drawConnectors, 100);
+            }
+        });
+    });
 }
 
 /**
  * Handle logout
  */
 function logout() {
+    console.log('Logout requested');
     if (tournamentState.changes) {
         showConfirmModal('You have unsaved changes. Are you sure you want to logout?', function() {
             localStorage.removeItem('auth');
@@ -168,8 +254,10 @@ function logout() {
  * Update tournament settings
  */
 function updateTournamentSettings() {
+    console.log('Updating tournament settings');
+    
     if (!domCache.tournamentName || !domCache.tournamentFormat || !domCache.tournamentStatus) {
-        console.error('DOM elements not found');
+        console.error('DOM elements for tournament settings not found');
         return;
     }
     
@@ -208,6 +296,8 @@ function updateTournamentSettings() {
  * Update tournament display (user-facing elements)
  */
 function updateTournamentDisplay() {
+    console.log('Updating tournament display');
+    
     // Update tournament title
     if (domCache.tournamentTitle) {
         domCache.tournamentTitle.textContent = tournamentState.name;
@@ -234,7 +324,12 @@ function updateTournamentDisplay() {
  * Update tournament status
  */
 function updateTournamentStatus(status) {
-    if (!domCache.tournamentStatusDisplay) return;
+    console.log('Updating tournament status to:', status);
+    
+    if (!domCache.tournamentStatusDisplay) {
+        console.warn('Tournament status display element not found');
+        return;
+    }
     
     // Update status text
     domCache.tournamentStatusDisplay.textContent = status.toUpperCase();
@@ -256,7 +351,12 @@ function updateTournamentStatus(status) {
  * Handle adding a team
  */
 function handleAddTeam() {
-    if (!domCache.teamNameInput || !domCache.teamSeedInput) return;
+    console.log('Handling add team');
+    
+    if (!domCache.teamNameInput || !domCache.teamSeedInput) {
+        console.error('Team input elements not found');
+        return;
+    }
     
     const teamName = domCache.teamNameInput.value.trim();
     const teamSeed = domCache.teamSeedInput.value.trim();
@@ -281,7 +381,12 @@ function handleAddTeam() {
  * Add a team to the UI and state
  */
 function addTeam(name, seed = '') {
-    if (!domCache.teamList) return;
+    console.log('Adding team:', name, 'with seed:', seed);
+    
+    if (!domCache.teamList) {
+        console.error('Team list element not found');
+        return;
+    }
     
     // Create a unique ID for the team
     const teamId = Date.now();
@@ -316,6 +421,8 @@ function addTeam(name, seed = '') {
  * Handle editing a team
  */
 function handleEditTeam(e) {
+    console.log('Handling edit team');
+    
     const teamItem = e.target.closest('.team-item');
     if (!teamItem) return;
     
@@ -340,6 +447,8 @@ function handleEditTeam(e) {
  * Handle removing a team
  */
 function handleRemoveTeam(e) {
+    console.log('Handling remove team');
+    
     const teamItem = e.target.closest('.team-item');
     if (!teamItem) return;
     
@@ -366,6 +475,8 @@ function handleRemoveTeam(e) {
  * Initialize modals
  */
 function initModals() {
+    console.log('Initializing modals');
+    
     // Close modal buttons
     document.querySelectorAll('.close-modal').forEach(btn => {
         btn.addEventListener('click', closeAllModals);
@@ -397,8 +508,13 @@ function initModals() {
  * Show confirmation modal
  */
 function showConfirmModal(message, onConfirm) {
+    console.log('Showing confirm modal with message:', message);
+    
     const modal = document.getElementById('confirm-modal');
-    if (!modal) return;
+    if (!modal) {
+        console.error('Confirm modal element not found');
+        return;
+    }
     
     // Set message
     const messageEl = modal.querySelector('.modal-body p');
@@ -430,8 +546,13 @@ function showConfirmModal(message, onConfirm) {
  * Show edit team modal
  */
 function showEditTeamModal(teamId, teamName, teamSeed) {
+    console.log('Showing edit team modal for:', teamName);
+    
     const modal = document.getElementById('edit-team-modal');
-    if (!modal) return;
+    if (!modal) {
+        console.error('Edit team modal element not found');
+        return;
+    }
     
     // Set team ID
     modal.setAttribute('data-team-id', teamId);
@@ -454,8 +575,13 @@ function showEditTeamModal(teamId, teamName, teamSeed) {
  * Save edited team
  */
 function saveEditedTeam() {
+    console.log('Saving edited team');
+    
     const modal = document.getElementById('edit-team-modal');
-    if (!modal) return;
+    if (!modal) {
+        console.error('Edit team modal element not found');
+        return;
+    }
     
     const teamId = modal.getAttribute('data-team-id');
     const teamName = document.getElementById('edit-team-name').value;
@@ -500,6 +626,8 @@ function saveEditedTeam() {
  * Close all modals
  */
 function closeAllModals() {
+    console.log('Closing all modals');
+    
     document.querySelectorAll('.modal').forEach(modal => {
         modal.classList.remove('active');
     });
@@ -517,6 +645,8 @@ function getTeamsFromList() {
  * Save tournament data to localStorage
  */
 function saveTournamentData() {
+    console.log('Saving tournament data');
+    
     // Save bracket data
     saveBracketData();
     
@@ -536,6 +666,8 @@ function saveTournamentData() {
  * Save bracket data to state
  */
 function saveBracketData() {
+    console.log('Saving bracket data');
+    
     const matchCards = document.querySelectorAll('.match-card');
     const matches = [];
     
@@ -575,6 +707,43 @@ function saveBracketData() {
 }
 
 /**
+ * Reset all scores in the bracket
+ */
+function resetAllScores() {
+    console.log('Resetting all scores');
+    
+    const scoreElements = document.querySelectorAll('.match-card .team-score');
+    
+    scoreElements.forEach(el => {
+        if (el.tagName === 'INPUT') {
+            el.value = '0';
+        } else {
+            el.textContent = '0';
+        }
+    });
+    
+    // Reset winner/loser classes
+    document.querySelectorAll('.team-row').forEach(row => {
+        row.classList.remove('winner', 'loser');
+    });
+    
+    // Reset match statuses to upcoming
+    document.querySelectorAll('.match-status').forEach(el => {
+        if (el.tagName === 'SELECT') {
+            el.value = 'upcoming';
+        } else {
+            el.textContent = 'Upcoming';
+            el.className = 'match-status upcoming';
+        }
+    });
+    
+    // Reset time displays
+    document.querySelectorAll('.match-time').forEach(el => {
+        el.textContent = 'Upcoming';
+    });
+}
+
+/**
  * Get element value (works with both inputs and text nodes)
  */
 function getElementValue(element) {
@@ -608,6 +777,8 @@ function getElementStatus(element) {
  * Load saved tournament data
  */
 function loadSavedData() {
+    console.log('Loading saved data');
+    
     const savedData = localStorage.getItem('tournamentData');
     if (savedData) {
         try {
@@ -630,6 +801,8 @@ function loadSavedData() {
  * Populate UI with state data
  */
 function populateUI() {
+    console.log('Populating UI with saved data');
+    
     // Populate tournament settings
     if (domCache.tournamentName) {
         domCache.tournamentName.value = tournamentState.name || '';
@@ -660,9 +833,11 @@ function populateUI() {
         domCache.teamList.innerHTML = '';
         
         // Add teams from state
-        tournamentState.teams.forEach(team => {
-            addTeam(team.name, team.seed);
-        });
+        if (tournamentState.teams && tournamentState.teams.length > 0) {
+            tournamentState.teams.forEach(team => {
+                addTeam(team.name, team.seed);
+            });
+        }
     }
     
     // Clear changes flag
@@ -673,6 +848,8 @@ function populateUI() {
  * Show notification
  */
 function showNotification(message, type = 'info') {
+    console.log('Showing notification:', message, 'type:', type);
+    
     // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
@@ -698,4 +875,20 @@ function showNotification(message, type = 'info') {
             notification.remove();
         }, 300);
     }, 5000);
+}
+
+// Generate bracket function is required by multiple event handlers
+function generateBracket(teams, format = 'single') {
+    console.log('Generating bracket for', teams.length, 'teams with format:', format);
+    
+    // This function should be defined in bracket.js
+    if (typeof window.generateBracket === 'function') {
+        window.generateBracket(teams, format);
+    } else if (typeof window.drawBracket === 'function') {
+        window.drawBracket(teams, format);
+    } else {
+        // Fallback implementation if the external function isn't available
+        showNotification('Bracket generation functionality is not fully loaded', 'error');
+        console.error('Bracket generation function not found');
+    }
 }

@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/optimized.css">
-    <!-- Preload critical scripts -->
-    <link rel="preload" href="js/optimized-admin.js" as="script">
+    <link rel="stylesheet" href="css/notification.css">
+    <link rel="stylesheet" href="css/enhancements.css">
+    <!-- Load scripts with proper names -->
+    <script src="js/notification.js" defer></script>
     <script src="js/bracket.js" defer></script>
-    <script src="js/optimized-admin.js" defer></script>
+    <script src="js/admin.js" defer></script>
     <script src="js/info-sync.js" defer></script>
 </head>
 <body class="admin-view">
@@ -138,9 +139,30 @@
                         </div>
                     </div>
                     
-                    <!-- Other tabs (Schedule, Results, Teams, Stats, Prize) would be here -->
-                    <!-- Each in their own tab-pane div with id matching the data-tab value -->
-                    <!-- Simplified for brevity -->
+                    <!-- Schedule Tab -->
+                    <div class="tab-pane" id="schedule">
+                        <p>Schedule management interface would appear here.</p>
+                    </div>
+                    
+                    <!-- Results Tab -->
+                    <div class="tab-pane" id="results">
+                        <p>Results management interface would appear here.</p>
+                    </div>
+                    
+                    <!-- Teams Tab -->
+                    <div class="tab-pane" id="teams">
+                        <p>Team details management would appear here.</p>
+                    </div>
+                    
+                    <!-- Stats Tab -->
+                    <div class="tab-pane" id="stats">
+                        <p>Statistics management would appear here.</p>
+                    </div>
+                    
+                    <!-- Prize Tab -->
+                    <div class="tab-pane" id="prize">
+                        <p>Prize pool management would appear here.</p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,33 +1,53 @@
 /**
  * bracket.js - Spectre Divide Tournament
- * Functionality specific to the tournament bracket visualization
+ * Fixed and enhanced tournament bracket visualization
  */
 
+// Make bracket generation available globally
+window.generateBracket = generateBracket;
+window.drawConnectors = drawConnectors;
+
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Bracket JS loaded');
+    
     // Draw connectors when page loads
-    drawConnectors();
+    setTimeout(drawConnectors, 300);
     
     // Set up match click handlers
     setupMatchClicks();
     
     // Redraw connectors when window is resized
-    window.addEventListener('resize', drawConnectors);
+    window.addEventListener('resize', function() {
+        setTimeout(drawConnectors, 100);
+    });
 });
 
 /**
  * Draw connector lines between matches in the bracket
  */
 function drawConnectors() {
+    console.log('Drawing bracket connectors');
+    
     const connectorContainer = document.getElementById('connector-container');
     
     // Exit if connector container doesn't exist
-    if (!connectorContainer) return;
+    if (!connectorContainer) {
+        console.warn('Connector container not found');
+        return;
+    }
     
     // Clear existing connectors
     connectorContainer.innerHTML = '';
     
     // Get all match wrappers that have next-match data
     const matchWrappers = document.querySelectorAll('.bracket-match-wrapper[data-next-match]');
+    
+    if (matchWrappers.length === 0) {
+        console.log('No match wrappers with next-match data found');
+        return;
+    }
+    
+    console.log(`Found ${matchWrappers.length} matches with next-match data`);
     
     matchWrappers.forEach(wrapper => {
         const matchRect = wrapper.getBoundingClientRect();
@@ -85,7 +105,54 @@ function drawConnectors() {
             // Add connectors to container
             connectorContainer.appendChild(horizontalConnector);
             connectorContainer.appendChild(horizontalConnector2);
+        } else {
+            console.warn(`Next match wrapper not found for match ${matchId} -> ${nextMatchId}`);
         }
+    });
+}
+
+/**
+ * Setup match click handlers
+ */
+function setupMatchClicks() {
+    console.log('Setting up match click handlers');
+    
+    const matchCards = document.querySelectorAll('.match-card');
+    
+    if (matchCards.length === 0) {
+        console.log('No match cards found');
+        return;
+    }
+    
+    console.log(`Found ${matchCards.length} match cards`);
+    
+    matchCards.forEach(card => {
+        card.addEventListener('click', function() {
+            console.log('Match card clicked:', this.getAttribute('data-match-id'));
+            
+            // Get match ID
+            const matchId = this.getAttribute('data-match-id');
+            
+            // Load match details (if we're on the public view)
+            if (typeof loadMatchDetails === 'function') {
+                loadMatchDetails(matchId);
+                
+                // For demo purposes, we scroll to the match details section
+                const matchDetails = document.querySelector('.match-details');
+                if (matchDetails) {
+                    matchDetails.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+            
+            // Highlight this match
+            this.classList.add('match-highlight');
+            setTimeout(() => {
+                this.classList.remove('match-highlight');
+            }, 3000);
+        });
     });
 }
 
@@ -95,6 +162,8 @@ function drawConnectors() {
  * @param {string} format - Tournament format (single, double, etc.)
  */
 function generateBracket(teams, format = 'single') {
+    console.log('Generating bracket for', teams.length, 'teams with format:', format);
+    
     // Validate teams
     if (!teams || teams.length < 2) {
         console.error('Not enough teams to generate a bracket');
@@ -103,7 +172,10 @@ function generateBracket(teams, format = 'single') {
     
     // Get bracket container
     const bracketContainer = document.querySelector('.bracket');
-    if (!bracketContainer) return;
+    if (!bracketContainer) {
+        console.error('Bracket container not found');
+        return;
+    }
     
     // Clear existing bracket
     bracketContainer.innerHTML = '<div class="connector-container" id="connector-container"></div>';
@@ -111,6 +183,8 @@ function generateBracket(teams, format = 'single') {
     // Calculate number of rounds needed
     const teamCount = teams.length;
     const roundCount = Math.ceil(Math.log2(teamCount));
+    
+    console.log(`Generating ${roundCount} rounds for ${teamCount} teams`);
     
     // Create rounds
     for (let round = 0; round < roundCount; round++) {
@@ -184,6 +258,9 @@ function generateBracket(teams, format = 'single') {
     
     // Draw connector lines
     setTimeout(drawConnectors, 100);
+    
+    // Set up match click handlers
+    setupMatchClicks();
 }
 
 /**
@@ -316,48 +393,24 @@ function getMatchId(round, match) {
 }
 
 /**
- * Advance a winner to the next round
- */
-function advanceWinner(roundIndex, matchIndex, winner, score) {
-    // Find the next match
-    const currentMatch = document.querySelector(`.bracket-match-wrapper[data-match-id="${getMatchId(roundIndex, matchIndex)}"]`);
-    if (!currentMatch) return;
-    
-    const nextMatchId = currentMatch.getAttribute('data-next-match');
-    const position = currentMatch.getAttribute('data-position');
-    
-    // Find the next match element
-    const nextMatch = document.querySelector(`.bracket-match-wrapper[data-match-id="${nextMatchId}"]`);
-    if (!nextMatch) return;
-    
-    // Get team rows in the next match
-    const nextMatchCard = nextMatch.querySelector('.match-card');
-    const teamRows = nextMatchCard.querySelectorAll('.team-row');
-    
-    // Determine which team position to update (top or bottom)
-    const teamIndex = position === 'top' ? 0 : 1;
-    
-    // Update team name and score in next match
-    if (teamRows[teamIndex]) {
-        const teamNameEl = teamRows[teamIndex].querySelector('.team-name');
-        const teamSeedEl = teamRows[teamIndex].querySelector('.team-seed');
-        
-        if (teamNameEl) teamNameEl.textContent = winner.name;
-        if (teamSeedEl) teamSeedEl.textContent = winner.seed || '-';
-    }
-}
-
-/**
  * Update match score and status
  */
 function updateMatchScore(matchId, team1Score, team2Score, status = 'completed') {
+    console.log(`Updating match ${matchId} score: ${team1Score}-${team2Score}, status: ${status}`);
+    
     // Find the match card
     const matchCard = document.querySelector(`.match-card[data-match-id="${matchId}"]`);
-    if (!matchCard) return;
+    if (!matchCard) {
+        console.warn(`Match card ${matchId} not found`);
+        return;
+    }
     
     // Get team rows
     const teamRows = matchCard.querySelectorAll('.team-row');
-    if (teamRows.length !== 2) return;
+    if (teamRows.length !== 2) {
+        console.warn(`Expected 2 team rows, found ${teamRows.length}`);
+        return;
+    }
     
     // Update scores
     const team1ScoreEl = teamRows[0].querySelector('.team-score');
@@ -405,9 +458,9 @@ function updateMatchScore(matchId, team1Score, team2Score, status = 'completed')
         }
     }
     
-    // If this is a completed match, and we have a winner, advance to next round
+    // If this is a completed match with a winner, advance to next round
     if (status === 'completed' && (team1Score > team2Score || team2Score > team1Score)) {
-        // Get match details
+        // Find match details
         const matchWrapper = matchCard.closest('.bracket-match-wrapper');
         if (!matchWrapper) return;
         
@@ -428,10 +481,50 @@ function updateMatchScore(matchId, team1Score, team2Score, status = 'completed')
             score: winnerIndex === 0 ? team1Score : team2Score
         };
         
-        // Advance winner to next round
+        // Check for next match
         const nextMatchId = matchWrapper.getAttribute('data-next-match');
         if (nextMatchId) {
-            advanceWinner(roundIndex, matchIndex, winner, winnerIndex === 0 ? team1Score : team2Score);
+            advanceWinner(roundIndex, matchIndex, winner);
         }
+    }
+}
+
+/**
+ * Advance a winner to the next round
+ */
+function advanceWinner(roundIndex, matchIndex, winner) {
+    console.log(`Advancing winner: ${winner.name} from round ${roundIndex}, match ${matchIndex}`);
+    
+    // Find the current match
+    const currentMatch = document.querySelector(`.bracket-match-wrapper[data-match-id="${getMatchId(roundIndex, matchIndex)}"]`);
+    if (!currentMatch) {
+        console.warn(`Current match not found for round ${roundIndex}, match ${matchIndex}`);
+        return;
+    }
+    
+    const nextMatchId = currentMatch.getAttribute('data-next-match');
+    const position = currentMatch.getAttribute('data-position');
+    
+    // Find the next match element
+    const nextMatch = document.querySelector(`.bracket-match-wrapper[data-match-id="${nextMatchId}"]`);
+    if (!nextMatch) {
+        console.warn(`Next match ${nextMatchId} not found`);
+        return;
+    }
+    
+    // Get team rows in the next match
+    const nextMatchCard = nextMatch.querySelector('.match-card');
+    const teamRows = nextMatchCard.querySelectorAll('.team-row');
+    
+    // Determine which team position to update (top or bottom)
+    const teamIndex = position === 'top' ? 0 : 1;
+    
+    // Update team name and seed in next match
+    if (teamRows[teamIndex]) {
+        const teamNameEl = teamRows[teamIndex].querySelector('.team-name');
+        const teamSeedEl = teamRows[teamIndex].querySelector('.team-seed');
+        
+        if (teamNameEl) teamNameEl.textContent = winner.name;
+        if (teamSeedEl) teamSeedEl.textContent = winner.seed || '-';
     }
 }
