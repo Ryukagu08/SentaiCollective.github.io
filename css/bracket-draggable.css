@@ -1,0 +1,188 @@
+/* CSS for preset-based bracket system */
+
+/* Make bracket container a viewport */
+.bracket-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    height: 600px;
+    margin: 20px 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius-lg);
+    border: var(--border-light);
+    touch-action: none; /* Disable browser's touch actions */
+}
+
+/* Make bracket draggable */
+.bracket {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    touch-action: none; /* Disable browser's touch actions */
+    will-change: transform; /* Optimize for animation performance */
+    transform-origin: center;
+    transition: transform 0.1s ease;
+}
+
+/* Grabbing cursor while dragging */
+.bracket:active {
+    cursor: grabbing;
+}
+
+/* Tournament structure container */
+.tournament-structure {
+    position: relative;
+    width: 1100px;
+    height: 450px;
+}
+
+/* Preset match specific styles */
+.preset-match {
+    position: absolute;
+    width: 280px;
+    background: linear-gradient(135deg, rgba(35, 35, 35, 0.95) 0%, rgba(25, 25, 25, 0.95) 100%);
+    border: var(--border-blue);
+    box-shadow: var(--shadow-md);
+    transition: all 0.2s ease;
+    backdrop-filter: blur(5px);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.preset-match:hover {
+    border-color: var(--spectre-pink);
+    box-shadow: 0 0 20px rgba(247, 61, 114, 0.2);
+    transform: translateY(-2px) scale(1.02);
+    z-index: 5;
+}
+
+/* Connector containers */
+.connector-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* SVG connector styles */
+.preset-connector-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+/* Drag hint */
+.drag-hint {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: var(--spectre-light-grey);
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    z-index: 10;
+    pointer-events: none;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.bracket-container:hover .drag-hint {
+    opacity: 0.4;
+}
+
+/* Match highlight animation */
+@keyframes matchHighlight {
+    0%, 100% { 
+        box-shadow: 0 0 0 2px var(--spectre-pink); 
+        transform: scale(1);
+    }
+    50% { 
+        box-shadow: 0 0 25px var(--spectre-pink-glow);
+        transform: scale(1.05); 
+    }
+}
+
+.match-highlight {
+    animation: matchHighlight 1.5s ease-in-out;
+    z-index: 10;
+}
+
+/* Zoom controls */
+.zoom-controls {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 30px;
+    padding: 5px;
+    z-index: 10;
+}
+
+.zoom-btn {
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    color: var(--spectre-light-grey);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.zoom-btn:hover {
+    background-color: rgba(75, 249, 252, 0.2);
+    color: var(--spectre-blue);
+}
+
+.zoom-reset {
+    font-size: 12px;
+    padding: 0 10px;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 767px) {
+    .bracket-container {
+        height: 450px;
+    }
+    
+    .preset-match {
+        width: 250px;
+    }
+    
+    .drag-hint {
+        font-size: 0.7rem;
+        padding: 6px 10px;
+    }
+}
+
+/* Media query for small mobile devices */
+@media (max-width: 480px) {
+    .bracket-container {
+        height: 400px;
+    }
+    
+    .preset-match {
+        width: 220px;
+    }
+    
+    .team-name {
+        max-width: 110px;
+        font-size: 0.9rem;
+    }
+    
+    .team-score {
+        font-size: 1.1rem;
+    }
+}
