@@ -1,23 +1,65 @@
 /**
- * admin.js - Spectre Divide Tournament
- * Admin panel functionality
+ * optimized-admin.js - Spectre Divide Tournament
+ * Performance-optimized admin functionality
  */
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Check authentication
-    checkAuth();
+// Single global state object for tournament data
+const tournamentState = {
+    name: 'Winter Championship 2025',
+    format: 'single',
+    status: 'live',
+    teams: [],
+    matches: [],
+    changes: false
+};
+
+// Cache DOM elements for improved performance
+const domCache = {};
+
+// Function to cache frequently accessed DOM elements
+function cacheDOMElements() {
+    // Tournament settings elements
+    domCache.tournamentName = document.getElementById('tournament-name');
+    domCache.tournamentFormat = document.getElementById('tournament-format');
+    domCache.tournamentStatus = document.getElementById('tournament-status-select');
+    domCache.tournamentDate = document.getElementById('tournament-date');
+    domCache.tournamentEndDate = document.getElementById('tournament-end-date');
     
-    // Initialize admin functionality
+    // Tournament header elements (user-facing)
+    domCache.tournamentTitle = document.querySelector('.tournament-title');
+    domCache.tournamentFormatDisplay = document.querySelector('.tournament-format');
+    domCache.tournamentStatusDisplay = document.querySelector('.tournament-status');
+    
+    // Buttons
+    domCache.updateTournamentBtn = document.getElementById('update-tournament');
+    domCache.addTeamBtn = document.getElementById('add-team');
+    domCache.generateBracketBtn = document.getElementById('generate-bracket');
+    domCache.resetScoresBtn = document.getElementById('reset-scores');
+    domCache.saveChangesBtn = document.getElementById('save-all-changes');
+    
+    // Team management
+    domCache.teamNameInput = document.getElementById('team-name');
+    domCache.teamSeedInput = document.getElementById('team-seed');
+    domCache.teamList = document.getElementById('admin-team-list');
+    
+    // Other sections
+    domCache.championDisplay = document.querySelector('.champion-display');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize on DOM load
+    cacheDOMElements();
+    checkAuth();
     initAdminFunctionality();
+    loadSavedData();
 });
 
 /**
- * Check if user is authenticated
+ * Check authentication
  */
 function checkAuth() {
     const token = localStorage.getItem('auth');
     if (!token) {
-        // Not authenticated, redirect to login
         window.location.href = 'login.html?redirect=admin';
     }
 }
@@ -26,349 +68,298 @@ function checkAuth() {
  * Initialize all admin functionality
  */
 function initAdminFunctionality() {
-    // Tournament settings
-    initTournamentSettings();
+    // Use event delegation for better performance
+    attachEventListeners();
     
-    // Team management
-    initTeamManagement();
-    
-    // Tournament actions
-    initTournamentActions();
-    
-    // Bracket editing
-    initBracketEditing();
-    
-    // Modal handling
+    // Initialize modals
     initModals();
 }
 
 /**
- * Initialize tournament settings functionality
+ * Attach event listeners using delegation where possible
  */
-function initTournamentSettings() {
-    const updateTournamentBtn = document.getElementById('update-tournament');
-    if (!updateTournamentBtn) return;
+function attachEventListeners() {
+    // Tournament settings
+    if (domCache.updateTournamentBtn) {
+        domCache.updateTournamentBtn.addEventListener('click', updateTournamentSettings);
+    }
     
-    updateTournamentBtn.addEventListener('click', function() {
-        const tournamentName = document.getElementById('tournament-name').value;
-        const tournamentFormat = document.getElementById('tournament-format').value;
-        const tournamentStatus = document.getElementById('tournament-status-select').value;
-        const tournamentDate = document.getElementById('tournament-date').value;
-        const tournamentEndDate = document.getElementById('tournament-end-date').value;
-        
-        // Validate inputs
-        if (!tournamentName) {
-            showNotification('Please enter a tournament name', 'error');
-            return;
-        }
-        
-        // Update tournament settings
-        updateTournamentHeader(tournamentName, tournamentFormat, tournamentStatus);
-        
-        // Show success notification
-        showNotification('Tournament settings updated successfully', 'success');
-    });
+    // Team management
+    if (domCache.addTeamBtn) {
+        domCache.addTeamBtn.addEventListener('click', handleAddTeam);
+    }
     
-    // Status change handler
-    const statusSelect = document.getElementById('tournament-status-select');
-    if (statusSelect) {
-        statusSelect.addEventListener('change', function() {
-            const status = this.value;
-            updateTournamentStatus(status);
+    // Tournament status
+    if (domCache.tournamentStatus) {
+        domCache.tournamentStatus.addEventListener('change', function() {
+            updateTournamentStatus(this.value);
         });
     }
-}
-
-/**
- * Update tournament header with new settings
- */
-function updateTournamentHeader(name, format, status) {
-    // Update tournament title
-    const tournamentTitle = document.querySelector('.tournament-title');
-    if (tournamentTitle) {
-        tournamentTitle.textContent = name;
+    
+    // Save changes
+    if (domCache.saveChangesBtn) {
+        domCache.saveChangesBtn.addEventListener('click', saveTournamentData);
     }
     
-    // Update tournament format
-    const tournamentFormat = document.querySelector('.tournament-format');
-    if (tournamentFormat) {
-        let formatText = 'Single Elimination';
-        
-        if (format === 'double') {
-            formatText = 'Double Elimination';
-        } else if (format === 'round') {
-            formatText = 'Round Robin';
-        }
-        
-        tournamentFormat.textContent = formatText;
-    }
-    
-    // Update tournament status
-    updateTournamentStatus(status);
-}
-
-/**
- * Initialize team management functionality
- */
-function initTeamManagement() {
-    // Add team
-    const addTeamBtn = document.getElementById('add-team');
-    if (addTeamBtn) {
-        addTeamBtn.addEventListener('click', function() {
-            const teamName = document.getElementById('team-name').value;
-            const teamSeed = document.getElementById('team-seed').value;
-            
-            if (!teamName) {
-                showNotification('Please enter a team name', 'error');
-                return;
+    // Team list event delegation
+    if (domCache.teamList) {
+        domCache.teamList.addEventListener('click', function(e) {
+            // Handle team edit button
+            if (e.target.classList.contains('edit-team-btn')) {
+                handleEditTeam(e);
             }
             
-            addTeam(teamName, teamSeed);
-            
-            // Clear inputs
-            document.getElementById('team-name').value = '';
-            document.getElementById('team-seed').value = '';
+            // Handle team remove button
+            if (e.target.classList.contains('remove-team-btn')) {
+                handleRemoveTeam(e);
+            }
         });
     }
     
-    // Team action buttons (edit, remove)
-    initTeamActions();
-}
-
-/**
- * Initialize team action buttons
- */
-function initTeamActions() {
-    // Remove team buttons
-    const removeTeamBtns = document.querySelectorAll('.remove-team-btn');
-    removeTeamBtns.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const teamItem = this.closest('.team-item');
-            if (teamItem) {
-                const teamId = teamItem.getAttribute('data-team-id');
-                showConfirmModal('Are you sure you want to remove this team?', function() {
-                    teamItem.remove();
-                    showNotification('Team removed successfully', 'success');
-                });
-            }
-        });
-    });
-    
-    // Edit team buttons
-    const editTeamBtns = document.querySelectorAll('.edit-team-btn');
-    editTeamBtns.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const teamItem = this.closest('.team-item');
-            if (teamItem) {
-                const teamId = teamItem.getAttribute('data-team-id');
-                const teamName = teamItem.querySelector('span').textContent.split(' ')[1];
-                const teamSeed = teamItem.querySelector('strong').textContent.replace('#', '');
-                
-                // Show edit team modal
-                showEditTeamModal(teamId, teamName, teamSeed);
-            }
-        });
-    });
-}
-
-/**
- * Add a new team to the list
- */
-function addTeam(name, seed = '') {
-    const teamList = document.getElementById('admin-team-list');
-    if (!teamList) return;
-    
-    // Create a unique ID for the team
-    const teamId = Date.now();
-    
-    // Create team item
-    const teamItem = document.createElement('div');
-    teamItem.className = 'team-item';
-    teamItem.setAttribute('data-team-id', teamId);
-    
-    const teamText = document.createElement('span');
-    teamText.innerHTML = `<strong>#${seed || teamList.children.length + 1}</strong> ${name}`;
-    
-    const teamActions = document.createElement('div');
-    teamActions.className = 'team-actions';
-    
-    const editBtn = document.createElement('button');
-    editBtn.className = 'edit-team-btn';
-    editBtn.textContent = '✎';
-    editBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        showEditTeamModal(teamId, name, seed || teamList.children.length + 1);
-    });
-    
-    const removeBtn = document.createElement('button');
-    removeBtn.className = 'remove-team-btn';
-    removeBtn.textContent = '×';
-    removeBtn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        showConfirmModal('Are you sure you want to remove this team?', function() {
-            teamItem.remove();
-            showNotification('Team removed successfully', 'success');
-        });
-    });
-    
-    teamActions.appendChild(editBtn);
-    teamActions.appendChild(removeBtn);
-    
-    teamItem.appendChild(teamText);
-    teamItem.appendChild(teamActions);
-    
-    teamList.appendChild(teamItem);
-    
-    // Show success notification
-    showNotification('Team added successfully', 'success');
-}
-
-/**
- * Initialize tournament actions
- */
-function initTournamentActions() {
-    // Generate bracket
-    const generateBracketBtn = document.getElementById('generate-bracket');
-    if (generateBracketBtn) {
-        generateBracketBtn.addEventListener('click', function() {
-            // Get teams
+    // Bracket generation
+    if (domCache.generateBracketBtn) {
+        domCache.generateBracketBtn.addEventListener('click', function() {
             const teams = getTeamsFromList();
-            
             if (teams.length < 4) {
                 showNotification('Need at least 4 teams to generate a bracket', 'error');
                 return;
             }
             
-            // Get tournament format
-            const format = document.getElementById('tournament-format').value;
-            
-            // Show confirmation modal
             showConfirmModal('Generate a new bracket? This will reset all current progress.', function() {
-                // Generate bracket
-                generateBracket(teams, format);
-                
-                // Show success notification
+                generateBracket(teams, domCache.tournamentFormat.value);
+                tournamentState.changes = true;
                 showNotification('Bracket generated successfully', 'success');
             });
         });
     }
     
     // Reset scores
-    const resetScoresBtn = document.getElementById('reset-scores');
-    if (resetScoresBtn) {
-        resetScoresBtn.addEventListener('click', function() {
+    if (domCache.resetScoresBtn) {
+        domCache.resetScoresBtn.addEventListener('click', function() {
             showConfirmModal('Are you sure you want to reset all scores?', function() {
                 resetAllScores();
+                tournamentState.changes = true;
                 showNotification('All scores have been reset', 'success');
             });
         });
     }
     
-    // Export data
-    const exportDataBtn = document.getElementById('export-data');
-    if (exportDataBtn) {
-        exportDataBtn.addEventListener('click', function() {
-            exportTournamentData();
+    // Logout button
+    document.getElementById('logout-button')?.addEventListener('click', logout);
+    document.getElementById('logout')?.addEventListener('click', logout);
+}
+
+/**
+ * Handle logout
+ */
+function logout() {
+    if (tournamentState.changes) {
+        showConfirmModal('You have unsaved changes. Are you sure you want to logout?', function() {
+            localStorage.removeItem('auth');
+            window.location.href = 'login.html';
         });
-    }
-    
-    // Delete tournament
-    const deleteTournamentBtn = document.getElementById('delete-tournament');
-    if (deleteTournamentBtn) {
-        deleteTournamentBtn.addEventListener('click', function() {
-            showConfirmModal('Are you sure you want to delete this tournament? This action cannot be undone.', function() {
-                // In a real app, this would make an API call to delete the tournament
-                showNotification('Tournament deleted successfully', 'success');
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 2000);
-            });
-        });
-    }
-    
-    // Bracket editing shortcuts
-    const shuffleTeamsBtn = document.getElementById('shuffle-teams');
-    if (shuffleTeamsBtn) {
-        shuffleTeamsBtn.addEventListener('click', function() {
-            const teams = getTeamsFromList();
-            if (teams.length < 4) {
-                showNotification('Need at least 4 teams to shuffle', 'error');
-                return;
-            }
-            
-            // Shuffle teams
-            for (let i = teams.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [teams[i], teams[j]] = [teams[j], teams[i]];
-            }
-            
-            // Get tournament format
-            const format = document.getElementById('tournament-format').value;
-            
-            // Generate bracket with shuffled teams
-            generateBracket(teams, format);
-            
-            showNotification('Teams shuffled successfully', 'success');
-        });
-    }
-    
-    const randomizeScoresBtn = document.getElementById('randomize-scores');
-    if (randomizeScoresBtn) {
-        randomizeScoresBtn.addEventListener('click', function() {
-            randomizeAllScores();
-            showNotification('Scores randomized successfully', 'success');
-        });
+    } else {
+        localStorage.removeItem('auth');
+        window.location.href = 'login.html';
     }
 }
 
 /**
- * Initialize bracket editing functionality
+ * Update tournament settings
  */
-function initBracketEditing() {
-    // Admin editable match cards
-    const editableMatchCards = document.querySelectorAll('.match-card.admin-editable');
+function updateTournamentSettings() {
+    if (!domCache.tournamentName || !domCache.tournamentFormat || !domCache.tournamentStatus) {
+        console.error('DOM elements not found');
+        return;
+    }
     
-    editableMatchCards.forEach(card => {
-        // Score inputs
-        const scoreInputs = card.querySelectorAll('.score-input');
-        const matchId = card.getAttribute('data-match-id');
+    const name = domCache.tournamentName.value;
+    const format = domCache.tournamentFormat.value;
+    const status = domCache.tournamentStatus.value;
+    
+    if (!name) {
+        showNotification('Please enter a tournament name', 'error');
+        return;
+    }
+    
+    // Update state
+    tournamentState.name = name;
+    tournamentState.format = format;
+    tournamentState.status = status;
+    
+    if (domCache.tournamentDate) {
+        tournamentState.startDate = domCache.tournamentDate.value;
+    }
+    
+    if (domCache.tournamentEndDate) {
+        tournamentState.endDate = domCache.tournamentEndDate.value;
+    }
+    
+    // Update UI
+    updateTournamentDisplay();
+    
+    // Mark as having changes
+    tournamentState.changes = true;
+    
+    showNotification('Tournament settings updated successfully', 'success');
+}
+
+/**
+ * Update tournament display (user-facing elements)
+ */
+function updateTournamentDisplay() {
+    // Update tournament title
+    if (domCache.tournamentTitle) {
+        domCache.tournamentTitle.textContent = tournamentState.name;
+    }
+    
+    // Update format display
+    if (domCache.tournamentFormatDisplay) {
+        let formatText = 'Single Elimination';
         
-        scoreInputs.forEach(input => {
-            input.addEventListener('change', function() {
-                const team1Score = parseInt(scoreInputs[0].value) || 0;
-                const team2Score = parseInt(scoreInputs[1].value) || 0;
-                
-                // Get status
-                const statusSelect = card.querySelector('.status-select');
-                const status = statusSelect ? statusSelect.value : 'completed';
-                
-                // Update match
-                updateMatchScore(matchId, team1Score, team2Score, status);
-            });
-        });
-        
-        // Status select
-        const statusSelect = card.querySelector('.status-select');
-        if (statusSelect) {
-            statusSelect.addEventListener('change', function() {
-                const team1Score = parseInt(scoreInputs[0].value) || 0;
-                const team2Score = parseInt(scoreInputs[1].value) || 0;
-                
-                // Update match
-                updateMatchScore(matchId, team1Score, team2Score, this.value);
-            });
+        if (tournamentState.format === 'double') {
+            formatText = 'Double Elimination';
+        } else if (tournamentState.format === 'round') {
+            formatText = 'Round Robin';
         }
+        
+        domCache.tournamentFormatDisplay.textContent = formatText;
+    }
+    
+    // Update status
+    updateTournamentStatus(tournamentState.status);
+}
+
+/**
+ * Update tournament status
+ */
+function updateTournamentStatus(status) {
+    if (!domCache.tournamentStatusDisplay) return;
+    
+    // Update status text
+    domCache.tournamentStatusDisplay.textContent = status.toUpperCase();
+    
+    // Update status styling
+    domCache.tournamentStatusDisplay.classList.remove('live', 'upcoming', 'completed');
+    domCache.tournamentStatusDisplay.classList.add(status.toLowerCase());
+    
+    // Show/hide champion display
+    if (domCache.championDisplay) {
+        domCache.championDisplay.style.display = status.toLowerCase() === 'completed' ? 'block' : 'none';
+    }
+    
+    // Update state
+    tournamentState.status = status;
+}
+
+/**
+ * Handle adding a team
+ */
+function handleAddTeam() {
+    if (!domCache.teamNameInput || !domCache.teamSeedInput) return;
+    
+    const teamName = domCache.teamNameInput.value.trim();
+    const teamSeed = domCache.teamSeedInput.value.trim();
+    
+    if (!teamName) {
+        showNotification('Please enter a team name', 'error');
+        return;
+    }
+    
+    addTeam(teamName, teamSeed);
+    
+    // Clear inputs
+    domCache.teamNameInput.value = '';
+    domCache.teamSeedInput.value = '';
+    domCache.teamNameInput.focus();
+    
+    // Mark as having changes
+    tournamentState.changes = true;
+}
+
+/**
+ * Add a team to the UI and state
+ */
+function addTeam(name, seed = '') {
+    if (!domCache.teamList) return;
+    
+    // Create a unique ID for the team
+    const teamId = Date.now();
+    const teamSeed = seed || (tournamentState.teams.length + 1);
+    
+    // Create team item element
+    const teamItem = document.createElement('div');
+    teamItem.className = 'team-item';
+    teamItem.setAttribute('data-team-id', teamId);
+    
+    teamItem.innerHTML = `
+        <span><strong>#${teamSeed}</strong> ${name}</span>
+        <div class="team-actions">
+            <button class="edit-team-btn">✎</button>
+            <button class="remove-team-btn">×</button>
+        </div>
+    `;
+    
+    domCache.teamList.appendChild(teamItem);
+    
+    // Add to state
+    tournamentState.teams.push({
+        id: teamId,
+        name: name,
+        seed: parseInt(teamSeed) || tournamentState.teams.length + 1
     });
     
-    // Update bracket button
-    const updateBracketBtn = document.getElementById('update-bracket');
-    if (updateBracketBtn) {
-        updateBracketBtn.addEventListener('click', function() {
-            showNotification('Bracket updated successfully', 'success');
-        });
+    showNotification('Team added successfully', 'success');
+}
+
+/**
+ * Handle editing a team
+ */
+function handleEditTeam(e) {
+    const teamItem = e.target.closest('.team-item');
+    if (!teamItem) return;
+    
+    const teamId = teamItem.getAttribute('data-team-id');
+    const teamText = teamItem.querySelector('span').textContent;
+    
+    // Parse team text
+    const teamParts = teamText.match(/^#(\d+)\s+(.+)$/);
+    
+    let teamSeed = '';
+    let teamName = teamText;
+    
+    if (teamParts && teamParts.length === 3) {
+        teamSeed = teamParts[1];
+        teamName = teamParts[2];
     }
+    
+    showEditTeamModal(teamId, teamName, teamSeed);
+}
+
+/**
+ * Handle removing a team
+ */
+function handleRemoveTeam(e) {
+    const teamItem = e.target.closest('.team-item');
+    if (!teamItem) return;
+    
+    const teamId = teamItem.getAttribute('data-team-id');
+    
+    showConfirmModal('Are you sure you want to remove this team?', function() {
+        // Remove from DOM
+        teamItem.remove();
+        
+        // Remove from state
+        const teamIndex = tournamentState.teams.findIndex(team => team.id == teamId);
+        if (teamIndex !== -1) {
+            tournamentState.teams.splice(teamIndex, 1);
+        }
+        
+        // Mark as having changes
+        tournamentState.changes = true;
+        
+        showNotification('Team removed successfully', 'success');
+    });
 }
 
 /**
@@ -376,60 +367,29 @@ function initBracketEditing() {
  */
 function initModals() {
     // Close modal buttons
-    const closeModalBtns = document.querySelectorAll('.close-modal');
-    closeModalBtns.forEach(btn => {
+    document.querySelectorAll('.close-modal').forEach(btn => {
         btn.addEventListener('click', closeAllModals);
     });
     
-    // Confirm modal
-    const confirmModal = document.getElementById('confirm-modal');
-    if (confirmModal) {
-        const cancelBtn = confirmModal.querySelector('#cancel-action');
-        if (cancelBtn) {
-            cancelBtn.addEventListener('click', closeAllModals);
-        }
-    }
+    // Cancel buttons
+    document.getElementById('cancel-action')?.addEventListener('click', closeAllModals);
+    document.getElementById('cancel-edit-team')?.addEventListener('click', closeAllModals);
     
-    // Edit team modal
-    const editTeamModal = document.getElementById('edit-team-modal');
-    if (editTeamModal) {
-        const cancelBtn = editTeamModal.querySelector('#cancel-edit-team');
-        if (cancelBtn) {
-            cancelBtn.addEventListener('click', closeAllModals);
-        }
-        
-        const saveBtn = editTeamModal.querySelector('#save-edit-team');
-        if (saveBtn) {
-            saveBtn.addEventListener('click', function() {
-                const teamId = editTeamModal.getAttribute('data-team-id');
-                const teamName = document.getElementById('edit-team-name').value;
-                const teamSeed = document.getElementById('edit-team-seed').value;
-                const teamLogo = document.getElementById('edit-team-logo').value;
-                
-                if (!teamName) {
-                    showNotification('Please enter a team name', 'error');
-                    return;
-                }
-                
-                // Update team
-                updateTeam(teamId, teamName, teamSeed, teamLogo);
-                
-                // Close modal
-                closeAllModals();
-                
-                showNotification('Team updated successfully', 'success');
-            });
-        }
-    }
+    // Save team button
+    document.getElementById('save-edit-team')?.addEventListener('click', saveEditedTeam);
     
-    // Close modals when clicking outside
+    // Close on outside click
     window.addEventListener('click', function(e) {
-        const modals = document.querySelectorAll('.modal');
-        modals.forEach(modal => {
-            if (e.target === modal) {
-                closeAllModals();
-            }
-        });
+        if (e.target.classList.contains('modal')) {
+            closeAllModals();
+        }
+    });
+    
+    // Close on escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeAllModals();
+        }
     });
 }
 
@@ -469,7 +429,7 @@ function showConfirmModal(message, onConfirm) {
 /**
  * Show edit team modal
  */
-function showEditTeamModal(teamId, teamName, teamSeed, teamLogo = '') {
+function showEditTeamModal(teamId, teamName, teamSeed) {
     const modal = document.getElementById('edit-team-modal');
     if (!modal) return;
     
@@ -479,243 +439,238 @@ function showEditTeamModal(teamId, teamName, teamSeed, teamLogo = '') {
     // Set form values
     document.getElementById('edit-team-name').value = teamName;
     document.getElementById('edit-team-seed').value = teamSeed;
-    document.getElementById('edit-team-logo').value = teamLogo || teamName.substring(0, 2).toUpperCase();
+    document.getElementById('edit-team-logo').value = teamName.substring(0, 2).toUpperCase();
     
     // Show modal
     modal.classList.add('active');
+    
+    // Focus on name field
+    setTimeout(() => {
+        document.getElementById('edit-team-name').focus();
+    }, 100);
+}
+
+/**
+ * Save edited team
+ */
+function saveEditedTeam() {
+    const modal = document.getElementById('edit-team-modal');
+    if (!modal) return;
+    
+    const teamId = modal.getAttribute('data-team-id');
+    const teamName = document.getElementById('edit-team-name').value;
+    const teamSeed = document.getElementById('edit-team-seed').value;
+    const teamLogo = document.getElementById('edit-team-logo').value;
+    
+    if (!teamName) {
+        showNotification('Please enter a team name', 'error');
+        return;
+    }
+    
+    // Update DOM
+    const teamItem = document.querySelector(`.team-item[data-team-id="${teamId}"]`);
+    if (teamItem) {
+        const teamText = teamItem.querySelector('span');
+        if (teamText) {
+            teamText.innerHTML = `<strong>#${teamSeed}</strong> ${teamName}`;
+        }
+    }
+    
+    // Update state
+    const teamIndex = tournamentState.teams.findIndex(team => team.id == teamId);
+    if (teamIndex !== -1) {
+        tournamentState.teams[teamIndex] = {
+            id: teamId,
+            name: teamName,
+            seed: parseInt(teamSeed) || teamIndex + 1,
+            logo: teamLogo
+        };
+    }
+    
+    // Mark as having changes
+    tournamentState.changes = true;
+    
+    // Close modal
+    closeAllModals();
+    
+    showNotification('Team updated successfully', 'success');
 }
 
 /**
  * Close all modals
  */
 function closeAllModals() {
-    const modals = document.querySelectorAll('.modal');
-    modals.forEach(modal => {
+    document.querySelectorAll('.modal').forEach(modal => {
         modal.classList.remove('active');
     });
 }
 
 /**
- * Update team information
- */
-function updateTeam(teamId, name, seed, logo) {
-    const teamItem = document.querySelector(`.team-item[data-team-id="${teamId}"]`);
-    if (!teamItem) return;
-    
-    // Update team text
-    const teamText = teamItem.querySelector('span');
-    if (teamText) {
-        teamText.innerHTML = `<strong>#${seed}</strong> ${name}`;
-    }
-}
-
-/**
- * Get teams from the team list
+ * Get teams from the list
  */
 function getTeamsFromList() {
-    const teamItems = document.querySelectorAll('#admin-team-list .team-item');
-    const teams = [];
-    
-    teamItems.forEach(item => {
-        const teamText = item.querySelector('span').textContent;
-        const seedMatch = teamText.match(/#(\d+)/);
-        const seed = seedMatch ? parseInt(seedMatch[1]) : null;
-        const name = teamText.replace(/#\d+\s/, '');
-        
-        teams.push({
-            id: item.getAttribute('data-team-id'),
-            name: name,
-            seed: seed
-        });
-    });
-    
-    // Sort by seed
-    teams.sort((a, b) => (a.seed || 999) - (b.seed || 999));
-    
-    return teams;
+    // Use state data instead of DOM parsing for better performance
+    return [...tournamentState.teams].sort((a, b) => (a.seed || 999) - (b.seed || 999));
 }
 
 /**
- * Reset all scores in the bracket
+ * Save tournament data to localStorage
  */
-function resetAllScores() {
+function saveTournamentData() {
+    // Save bracket data
+    saveBracketData();
+    
+    // Add timestamp
+    tournamentState.lastSaved = new Date().toISOString();
+    
+    // Save to localStorage
+    localStorage.setItem('tournamentData', JSON.stringify(tournamentState));
+    
+    // Reset changes flag
+    tournamentState.changes = false;
+    
+    showNotification('All changes saved successfully', 'success');
+}
+
+/**
+ * Save bracket data to state
+ */
+function saveBracketData() {
     const matchCards = document.querySelectorAll('.match-card');
-    
-    matchCards.forEach(card => {
-        const teamRows = card.querySelectorAll('.team-row');
-        
-        // Clear winner/loser classes
-        teamRows.forEach(row => {
-            row.classList.remove('winner', 'loser');
-        });
-        
-        // Reset scores
-        const scoreInputs = card.querySelectorAll('.score-input');
-        if (scoreInputs.length > 0) {
-            scoreInputs.forEach(input => {
-                input.value = 0;
-            });
-        } else {
-            const scoreElements = card.querySelectorAll('.team-score');
-            scoreElements.forEach(el => {
-                el.textContent = '-';
-            });
-        }
-        
-        // Reset status
-        const statusSelect = card.querySelector('.status-select');
-        if (statusSelect) {
-            statusSelect.value = 'upcoming';
-        }
-        
-        const statusEl = card.querySelector('.match-status');
-        if (statusEl) {
-            statusEl.className = 'match-status upcoming';
-            statusEl.textContent = 'Scheduled';
-        }
-        
-        const timeEl = card.querySelector('.match-time');
-        if (timeEl) {
-            timeEl.textContent = 'Upcoming';
-        }
-    });
-    
-    // Regenerate connectors
-    drawConnectors();
-}
-
-/**
- * Randomize all scores in the bracket
- */
-function randomizeAllScores() {
-    const matchCards = document.querySelectorAll('.match-card');
-    
-    matchCards.forEach(card => {
-        const matchId = card.getAttribute('data-match-id');
-        const teamRows = card.querySelectorAll('.team-row');
-        
-        // Skip if any team is TBD
-        const team1Name = teamRows[0].querySelector('.team-name').textContent;
-        const team2Name = teamRows[1].querySelector('.team-name').textContent;
-        
-        if (team1Name === 'TBD' || team2Name === 'TBD' || team1Name === 'BYE' || team2Name === 'BYE') {
-            return;
-        }
-        
-        // Generate random scores
-        const maxScore = card.querySelector('.match-format').textContent === 'BO7' ? 4 : 3;
-        const team1Score = Math.floor(Math.random() * (maxScore + 1));
-        let team2Score = Math.floor(Math.random() * (maxScore + 1));
-        
-        // Ensure we have a winner (no ties)
-        if (team1Score === team2Score) {
-            // If both 0, make at least one score greater than 0
-            if (team1Score === 0) {
-                team2Score = Math.ceil(Math.random() * maxScore);
-            } else {
-                // If max score, reduce one of them
-                if (team1Score === maxScore) {
-                    team2Score = Math.floor(Math.random() * maxScore);
-                } else {
-                    // Otherwise, just make sure they're different
-                    team2Score = team1Score - 1;
-                }
-            }
-        }
-        
-        // Update scores in the UI
-        const scoreInputs = card.querySelectorAll('.score-input');
-        if (scoreInputs.length > 0) {
-            scoreInputs[0].value = team1Score;
-            scoreInputs[1].value = team2Score;
-        }
-        
-        // Update match
-        updateMatchScore(matchId, team1Score, team2Score, 'completed');
-    });
-}
-
-/**
- * Export tournament data as JSON
- */
-function exportTournamentData() {
-    // Get tournament info
-    const name = document.getElementById('tournament-name').value;
-    const format = document.getElementById('tournament-format').value;
-    const status = document.getElementById('tournament-status-select').value;
-    const startDate = document.getElementById('tournament-date').value;
-    const endDate = document.getElementById('tournament-end-date').value;
-    
-    // Get teams
-    const teams = getTeamsFromList();
-    
-    // Get matches
     const matches = [];
-    const matchCards = document.querySelectorAll('.match-card');
     
     matchCards.forEach(card => {
         const matchId = card.getAttribute('data-match-id');
-        const teamRows = card.querySelectorAll('.team-row');
+        const team1Name = card.querySelector('.team-row:first-child .team-name')?.textContent || 'TBD';
+        const team2Name = card.querySelector('.team-row:last-child .team-name')?.textContent || 'TBD';
         
-        const team1Name = teamRows[0].querySelector('.team-name').textContent;
-        const team2Name = teamRows[1].querySelector('.team-name').textContent;
+        // Handle different score element types (input vs text)
+        const team1ScoreEl = card.querySelector('.team-row:first-child .team-score');
+        const team2ScoreEl = card.querySelector('.team-row:last-child .team-score');
         
-        const team1Score = parseInt(teamRows[0].querySelector('.team-score').textContent) || 0;
-        const team2Score = parseInt(teamRows[1].querySelector('.team-score').textContent) || 0;
+        const team1Score = getElementValue(team1ScoreEl) || 0;
+        const team2Score = getElementValue(team2ScoreEl) || 0;
         
-        const matchFormatEl = card.querySelector('.match-format');
-        const matchFormat = matchFormatEl ? matchFormatEl.textContent : 'BO5';
+        // Format and status
+        const formatEl = card.querySelector('.match-format');
+        const statusEl = card.querySelector('.match-status');
         
-        const matchStatusEl = card.querySelector('.match-status');
-        const matchStatus = matchStatusEl ? matchStatusEl.className.replace('match-status ', '') : 'upcoming';
+        const format = getElementValue(formatEl) || 'BO5';
+        const status = getElementStatus(statusEl) || 'upcoming';
         
+        // Add to matches array
         matches.push({
             id: matchId,
             team1: team1Name,
             team2: team2Name,
             team1Score: team1Score,
             team2Score: team2Score,
-            format: matchFormat,
-            status: matchStatus
+            format: format,
+            status: status
         });
     });
     
-    // Create tournament data object
-    const tournamentData = {
-        name: name,
-        format: format,
-        status: status,
-        startDate: startDate,
-        endDate: endDate,
-        teams: teams,
-        matches: matches,
-        exportDate: new Date().toISOString()
-    };
-    
-    // Convert to JSON
-    const jsonData = JSON.stringify(tournamentData, null, 2);
-    
-    // Create download link
-    const blob = new Blob([jsonData], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `tournament_${name.replace(/\s+/g, '_').toLowerCase()}_${new Date().toISOString().slice(0, 10)}.json`;
-    document.body.appendChild(a);
-    a.click();
-    
-    // Clean up
-    setTimeout(() => {
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-    }, 0);
-    
-    showNotification('Tournament data exported successfully', 'success');
+    // Update state
+    tournamentState.matches = matches;
 }
 
 /**
- * Create notification toast
+ * Get element value (works with both inputs and text nodes)
+ */
+function getElementValue(element) {
+    if (!element) return null;
+    
+    if (element.tagName === 'INPUT' || element.tagName === 'SELECT') {
+        return element.value;
+    } else {
+        return element.textContent;
+    }
+}
+
+/**
+ * Get match status from status element
+ */
+function getElementStatus(element) {
+    if (!element) return 'upcoming';
+    
+    if (element.tagName === 'SELECT') {
+        return element.value;
+    } else if (element.classList.contains('completed')) {
+        return 'completed';
+    } else if (element.classList.contains('live')) {
+        return 'live';
+    } else {
+        return 'upcoming';
+    }
+}
+
+/**
+ * Load saved tournament data
+ */
+function loadSavedData() {
+    const savedData = localStorage.getItem('tournamentData');
+    if (savedData) {
+        try {
+            const data = JSON.parse(savedData);
+            
+            // Merge with current state
+            Object.assign(tournamentState, data);
+            
+            // Update UI
+            populateUI();
+            
+            showNotification('Loaded saved tournament data', 'info');
+        } catch (e) {
+            console.error('Error loading saved data:', e);
+        }
+    }
+}
+
+/**
+ * Populate UI with state data
+ */
+function populateUI() {
+    // Populate tournament settings
+    if (domCache.tournamentName) {
+        domCache.tournamentName.value = tournamentState.name || '';
+    }
+    
+    if (domCache.tournamentFormat) {
+        domCache.tournamentFormat.value = tournamentState.format || 'single';
+    }
+    
+    if (domCache.tournamentStatus) {
+        domCache.tournamentStatus.value = tournamentState.status || 'upcoming';
+    }
+    
+    if (domCache.tournamentDate) {
+        domCache.tournamentDate.value = tournamentState.startDate || '';
+    }
+    
+    if (domCache.tournamentEndDate) {
+        domCache.tournamentEndDate.value = tournamentState.endDate || '';
+    }
+    
+    // Update display
+    updateTournamentDisplay();
+    
+    // Populate teams
+    if (domCache.teamList) {
+        // Clear existing teams
+        domCache.teamList.innerHTML = '';
+        
+        // Add teams from state
+        tournamentState.teams.forEach(team => {
+            addTeam(team.name, team.seed);
+        });
+    }
+    
+    // Clear changes flag
+    tournamentState.changes = false;
+}
+
+/**
+ * Show notification
  */
 function showNotification(message, type = 'info') {
     // Create notification element
